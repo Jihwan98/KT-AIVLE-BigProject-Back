@@ -1,0 +1,5 @@
+# 개발용
+
+-r common.txt
+
+django-debug-toolbar

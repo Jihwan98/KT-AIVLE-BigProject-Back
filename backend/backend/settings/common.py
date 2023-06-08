@@ -91,10 +91,24 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# sqlite3
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, "db.sqlite3"),
+#     }
+# }
+
+
+# MYSQL
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, "db.sqlite3"),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': "BACKEND", # 연동할 DB 이름
+        'USER': 'root',
+        'PASSWORD': 'aivle',
+        'HOST':'localhost',
+        'PORT': '3306',        
     }
 }
 

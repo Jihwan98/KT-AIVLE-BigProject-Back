@@ -5,7 +5,6 @@ from django.db import models
 
 
 class User(AbstractUser):
-    bio = models.TextField(blank=True)
     hospitalID = models.TextField(blank=True)
     
     # 휴대전화 번호

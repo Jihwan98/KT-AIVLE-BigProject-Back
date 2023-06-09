@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     
     # Locals Apps: 생성한 app list
     "accounts",
+    "posts",
     
 ]
 

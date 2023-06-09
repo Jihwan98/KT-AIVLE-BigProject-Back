@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 from os.path import abspath, dirname, join
 
+import settings_params
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 # BASE_DIR: 프로젝트의 최상위 경로를 뜻함
@@ -26,7 +28,7 @@ BASE_DIR = dirname(dirname(dirname(abspath(__file__))))
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-aak!u3$8h(x5cq!9%q+$61wuyb0)%s41!410=zo9$7vpra_3ym'
+SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -101,18 +103,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # }
 
 
-# MYSQL
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': "BACKEND", # 연동할 DB 이름
-        'USER': 'root',
-        'PASSWORD': 'aivle',
-        'HOST':'localhost',
-        'PORT': '3306',        
-    }
-}
-
+DATABASES = DATABASES
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

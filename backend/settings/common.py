@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 from os.path import abspath, dirname, join
 
-import settings_params
+from settings_params import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 

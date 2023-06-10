@@ -1,7 +1,1 @@
-# This file may be used to create an environment using:
-# $ conda create --name <env> --file <this file>
-# platform: win-64
-
-# conda list --export > requirements/common.txt : 패키지 기록
-# conda install --file requirements.txt : 패키지 설치
 -r requirements/prod.txt

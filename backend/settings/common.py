@@ -52,6 +52,12 @@ INSTALLED_APPS = [
     'rest_framework', # pip install djangorestframework
     'corsheaders', # pip install django-cors-headers: CORS 오류 방지
     'rest_framework_simplejwt', # pip install djangorestframework-simplejwt
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    
+    'allauth',
+    'allauth.account',
     
     
     # Locals Apps: 생성한 app list
@@ -166,6 +172,24 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # default AUTH_USER 
 AUTH_USER_MODEL = 'accounts.User'
 
+# dj-rest-auth
+REST_AUTH = {
+    'USER_DETAILS_SERIALIZER': 'dj_rest_auth.serializers.UserDetailsSerializer',
+    'USE_JWT': True,
+    'JWT_AUTH_COOKIE': 'my-app-auth',
+    'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-token',
+    'JWT_AUTH_HTTPONLY' : False,
+}
+
+SITE_ID = 1
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None # username 필드 사용 x
+ACCOUNT_EMAIL_REQUIRED = True            # email 필드 사용 o
+ACCOUNT_USERNAME_REQUIRED = False        # username 필드 사용 x
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+ACCOUNT_EMAIL_VERIFICATION = 'none' # 회원가입 과정에서 이메일 인증 사용 X
+
+
 # REST_FRAMEWORK settings:
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -208,3 +232,4 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+

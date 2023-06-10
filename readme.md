@@ -12,6 +12,7 @@ ec2에서 python venv를 사용할 것으로 venv로 가상환경을 세팅
     - venv 생성 기본 명령어 : `python -m venv .venv`  
     - 근데, python version을 통일하기 위해 python 3.10 version 다운 후 위의 명령어 실행
     - 명령어 앞의 `\Users\~~\python` 은 각자 python 설치 환경에 따라 달라질 수 있음
+4. `$ cd Team11-Project-back` : 작업 폴더로 들어가기
 5. `$ .venv\Scripts\activate.bat`
     - Windows의 경우는 위의 명령어로 가상환경 실행
     - `$ source venv/bin/activate` : linux 

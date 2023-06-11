@@ -9,7 +9,11 @@ class SignupSerializer(serializers.ModelSerializer):
 
     # validated_data 유효시 반환
     def create(self, validated_data):
-        user = User.objects.create(username=validated_data["username"])
+        user = User.objects.create(username=validated_data["username"],
+                                   email = validated_data['email'],
+                                   first_name= validated_data['first_name'],
+                                   last_name= validated_data['last_name'],
+                                   )
 
         # password 암호화 후 저장
         user.set_password(validated_data["password"])
@@ -18,4 +22,5 @@ class SignupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["pk", "username", "password"]
+        # fields = '__all__'
+        fields = ["username", "password", 'email', 'first_name', 'last_name']

@@ -26,7 +26,8 @@ class Answer(models.Model):
 
 class Picture(models.Model):
     id = models.IntegerField(primary_key=True)
-    path = models.CharField(max_length=255)
+    # id = models.AutoField(primary_key=True)
+    photo = models.ImageField(upload_to="picture/post/%Y/%m/%d")
 
     class Meta:
         db_table = 'picture'

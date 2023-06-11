@@ -15,6 +15,7 @@ import os
 from os.path import abspath, dirname, join
 
 from settings_params import *
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -50,7 +51,7 @@ INSTALLED_APPS = [
     # Third Apps
     'rest_framework', # pip install djangorestframework
     'corsheaders', # pip install django-cors-headers: CORS 오류 방지
-    
+    'rest_framework_simplejwt', # pip install djangorestframework-simplejwt
     
     # Locals Apps: 생성한 app list
     "accounts",
@@ -168,6 +169,40 @@ AUTH_USER_MODEL = 'accounts.User'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+     ]
 }
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30), 
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': False, # True일 경우: TokenRefeshView 에 retresh token을 보내면 새로운 access/refresh token 발급
+    'BLACKLIST_AFTER_ROTATION': False, # True 일 시: 새로 고침 토큰 이 블랙리스트에 추가
+    'UPDATE_LAST_LOGIN': False, # True 일 시: User 테이블의 last_login 필드가 로그인 시 업데이트
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None, # host site의 도메인
+    'JWK_URL': None,
+    'LEEWAY': 0,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION', # HTTP_  뒤 부분이 token 헤더 이름이 됨
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}

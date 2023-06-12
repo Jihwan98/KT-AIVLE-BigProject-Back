@@ -24,7 +24,7 @@ class User(AbstractUser):
         db_table = 'user'
 
 class Hospital(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     address = models.CharField(max_length=255)
     officenumber = models.CharField(db_column='officeNumber', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
@@ -32,7 +32,7 @@ class Hospital(models.Model):
         db_table = 'hospital'
         
 class Pet(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     species = models.CharField(max_length=255)
     birth = models.DateTimeField()

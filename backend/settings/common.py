@@ -18,12 +18,16 @@ from datetime import timedelta
 from settings_params import *
 from datetime import timedelta
 
+import sys
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 # BASE_DIR: 프로젝트의 최상위 경로를 뜻함
 # BASE_DIR = Path(__file__).resolve().parent.parent (기존의 BASE_DIR)
 BASE_DIR = dirname(dirname(dirname(abspath(__file__))))
 
+
+for key, value in SOCIAL_LOGIN.items():
+    setattr(sys.modules[__name__], key, value)
 
 
 # Quick-start development settings - unsuitable for production
@@ -48,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     
     # Third Apps
     'rest_framework', # pip install djangorestframework
@@ -58,6 +63,12 @@ INSTALLED_APPS = [
     
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
+    
+    # include the providers
+    'allauth.socialaccount.providers.naver',
+    'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.google',
     
     # Locals Apps: 생성한 app list
     "accounts",
@@ -197,8 +208,19 @@ REST_FRAMEWORK = {
      'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        # dj_rest_auth의 인증절차 중 JWTCookieAuthentication을 사용
+         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
      ]
 }
+
+
+# cookie key 와 refresh cookie key 의 이름을 설정
+JWT_AUTH_COOKIE = 'sociallogin-auth'
+JWT_AUTH_REFRESH_COOKIE = 'sociallogin-refresh-token'
+
+# JWT 사용을 위한 설정
+REST_USE_JWT = True
+
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30), 

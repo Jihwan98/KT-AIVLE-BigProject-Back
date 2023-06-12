@@ -186,6 +186,7 @@ ACCOUNT_USERNAME_REQUIRED = False        # username 필드 사용 x
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 ACCOUNT_EMAIL_VERIFICATION = 'none' # 회원가입 과정에서 이메일 인증 사용 X
+OLD_PASSWORD_FIELD_ENABLED = True # 비밀번호 변경 시 예전 비밀번호 입력
 
 
 # REST_FRAMEWORK settings:

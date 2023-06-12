@@ -16,6 +16,7 @@ from os.path import abspath, dirname, join
 from datetime import timedelta
 
 from settings_params import *
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -51,7 +52,6 @@ INSTALLED_APPS = [
     # Third Apps
     'rest_framework', # pip install djangorestframework
     'corsheaders', # pip install django-cors-headers: CORS 오류 방지
-    'rest_framework_simplejwt', # pip install djangorestframework-simplejwt
     'rest_framework.authtoken',
     'dj_rest_auth',
     'dj_rest_auth.registration',
@@ -59,11 +59,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     
-    
     # Locals Apps: 생성한 app list
     "accounts",
     "posts",
-    
 ]
 
 MIDDLEWARE = [
@@ -192,32 +190,33 @@ ACCOUNT_EMAIL_VERIFICATION = 'none' # 회원가입 과정에서 이메일 인증
 
 # REST_FRAMEWORK settings:
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+    ],
+     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ),
+     ]
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30), 
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': False,
-    'UPDATE_LAST_LOGIN': False,
+    'ROTATE_REFRESH_TOKENS': False, # True일 경우: TokenRefeshView 에 retresh token을 보내면 새로운 access/refresh token 발급
+    'BLACKLIST_AFTER_ROTATION': False, # True 일 시: 새로 고침 토큰 이 블랙리스트에 추가
+    'UPDATE_LAST_LOGIN': False, # True 일 시: User 테이블의 last_login 필드가 로그인 시 업데이트
 
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
-    'ISSUER': None,
+    'ISSUER': None, # host site의 도메인
     'JWK_URL': None,
     'LEEWAY': 0,
 
     'AUTH_HEADER_TYPES': ('Bearer',),
-    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION', # HTTP_  뒤 부분이 token 헤더 이름이 됨
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
     'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
@@ -232,4 +231,3 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
-

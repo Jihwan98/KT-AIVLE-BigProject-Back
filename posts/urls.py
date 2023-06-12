@@ -1,7 +1,12 @@
-from django.urls import path
 from . import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
 app_name="posts"
+
+router = DefaultRouter()
+router.register('picture', views.PictureViewSet)
+
 urlpatterns = [
-    # path()
+    path('api/', include(router.urls))
 ]

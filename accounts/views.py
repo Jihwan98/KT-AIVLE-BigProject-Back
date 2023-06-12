@@ -34,7 +34,7 @@ class NaverLoginAPIView(APIView):
         response_type = "code"
         # Naver에서 설정했던 callback url을 입력해주어야 한다.
         # 아래의 전체 값은 http://127.0.0.1:8000/user/naver/callback 이 된다.
-        uri = main_domain + "/user/naver/callback"
+        uri = main_domain + "/accounts/naver/callback"
         state = settings.STATE
         # Naver Document 에서 확인했던 요청 url
         url = "https://nid.naver.com/oauth2.0/authorize"
@@ -97,7 +97,7 @@ class NaverCallbackAPIView(APIView):
                 # accept 에는 token 값이 json 형태로 들어온다({"key"}:"token value")
                 # 여기서 오는 key 값은 authtoken_token에 저장된다.
                 accept = requests.post(
-                    f"{main_domain}/user/naver/login/success", data=data
+                    f"{main_domain}/accounts/naver/login/success", data=data
                 )
                 # 만약 token 요청이 제대로 이루어지지 않으면 오류처리
                 if accept.status_code != 200:
@@ -107,7 +107,7 @@ class NaverCallbackAPIView(APIView):
             except User.DoesNotExist:
                 data = {'access_token': access_token, 'code': code}
                 accept = requests.post(
-                    f"{main_domain}/user/naver/login/success", data=data
+                    f"{main_domain}/accounts/naver/login/success", data=data
                 )
                 # token 발급
                 return Response(accept.json(), status=status.HTTP_200_OK)

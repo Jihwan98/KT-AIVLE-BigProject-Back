@@ -1,10 +1,30 @@
-from django.conf import settings
-from django.contrib.auth.models import AbstractUser
-# from django.core.validators import RegexValidator
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+
+from .managers import UserManager
+
+class User(AbstractUser):
+    username = None
+    email = models.EmailField(_('email address'), unique=True, null=False, blank=False)
+    hospitalID = models.ForeignKey("Hospital", on_delete=models.CASCADE, blank=True, null=True, db_column="hospitalID")
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
+    
+    @property
+    def name(self):
+        return f"{self.first_name} {self.last_name}"
+    
+    def __str__(self):
+        return self.email
+    class Meta:
+        db_table = 'user'
 
 class Hospital(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     address = models.CharField(max_length=255)
     officenumber = models.CharField(db_column='officeNumber', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
@@ -12,7 +32,7 @@ class Hospital(models.Model):
         db_table = 'hospital'
         
 class Pet(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     species = models.CharField(max_length=255)
     birth = models.DateTimeField()
@@ -23,17 +43,3 @@ class Pet(models.Model):
 
     class Meta:
         db_table = 'pet'
-
-class User(AbstractUser):
-    hospitalID = models.ForeignKey("Hospital", on_delete=models.CASCADE, blank=True, null=True, db_column="hospitalID")
-    
-    # 휴대전화 번호
-    # phone_number = models.CharField(
-    #     max_length=13,
-    #     blank=True,
-    #     validators=[RegexValidator(r"^010-?[1-9]\d{3}-?\d{4}$")],
-    # )
-
-    @property
-    def name(self):
-        return f"{self.first_name} {self.last_name}"

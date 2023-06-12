@@ -50,11 +50,14 @@ INSTALLED_APPS = [
     # Third Apps
     'rest_framework', # pip install djangorestframework
     'corsheaders', # pip install django-cors-headers: CORS 오류 방지
-    
+    'rest_framework.authtoken',# pip install auth-token
     
     # Locals Apps: 생성한 app list
     "accounts",
     "posts",
+    
+    # oatuh2구현
+    'social_django',
     
 ]
 
@@ -166,8 +169,20 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # REST_FRAMEWORK settings:
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
 
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.naver.NaverOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SOCIAL_AUTH_NAVER_KEY = 'x_9lXK7AZTau3DsfR_UW'
+SOCIAL_AUTH_NAVER_SECRET = '2rEJuJMVqx'

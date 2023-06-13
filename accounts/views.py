@@ -17,6 +17,10 @@ from dj_rest_auth.registration.views import SocialLoginView
 from django.http import JsonResponse
 from json import JSONDecodeError
 
+from rest_framework.viewsets import ModelViewSet
+from .models import Hospital, Pet
+from .serializers import HospitalSerializer, PetSerializer
+
 main_domain = settings.MAIN_DOMAIN
 
 # DRF의 APIView를 상속받아 View를 구성
@@ -116,3 +120,13 @@ class NaverCallbackAPIView(APIView):
 class NaverToDjangoLoginView(SocialLoginView):
     adapter_class = naver_views.NaverOAuth2Adapter
     client_class = OAuth2Client
+    
+# accounts/api/hospital     
+class HospitalViewSet(ModelViewSet):
+    queryset = Hospital.objects.all()
+    serializer_class = HospitalSerializer    
+
+# accounts/api/pet 
+class PetViewSet(ModelViewSet):
+    queryset = Pet.objects.all()
+    serializer_class = PetSerializer

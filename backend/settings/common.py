@@ -202,6 +202,14 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none' # 회원가입 과정에서 이메일 인증 사용 X
 OLD_PASSWORD_FIELD_ENABLED = True # 비밀번호 변경 시 예전 비밀번호 입력
 
+# 카카오 로그인 인가
+
+SOCIALACCOUNT_LOGIN_ON_GET = True #중간에 창이 뜨지 않고 바로 카카오 로그인페이지로 이동
+LOGIN_REDIRECT_URL = 'main' # 리다이렉트 발생시 회원가입 화면 main으로
+ACCOUNT_LOGOUT_REDIRECT_URL = 'index' #로그아웃 후 연결될 URL을 설정
+ACCOUNT_LOGOUT_ON_GET = True # 로그아웃 요청시 즉시 로그아웃 되도록 설정
+
+
 
 # REST_FRAMEWORK settings:
 REST_FRAMEWORK = {

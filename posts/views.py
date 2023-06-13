@@ -9,4 +9,4 @@ from .serializers import PictureSerializer
 class PictureViewSet(ModelViewSet):
     queryset = Picture.objects.all()
     serializer_class = PictureSerializer
-    permission_classes = [AllowAny]
+    # permission_classes = [AllowAny]

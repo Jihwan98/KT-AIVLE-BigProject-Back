@@ -6,9 +6,11 @@ from django.utils.safestring import mark_safe
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     pass
+
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
     pass
+
 @admin.register(Picture)
 class PictureAdmin(admin.ModelAdmin):
     list_display = ['id', 'photo_tag', 'photo_url']
@@ -19,8 +21,6 @@ class PictureAdmin(admin.ModelAdmin):
     
     def photo_url(self, picture):
         return picture.photo.url
-        
-        
     
 @admin.register(History)
 class HistoryAdmin(admin.ModelAdmin):

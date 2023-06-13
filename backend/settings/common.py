@@ -207,7 +207,7 @@ OLD_PASSWORD_FIELD_ENABLED = True # 비밀번호 변경 시 예전 비밀번호 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.permissions.IsAdminUser',
+        # 'rest_framework.permissions.IsAdminUser',
     ],
      'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',

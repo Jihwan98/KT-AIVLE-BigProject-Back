@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 # Create your models here.
 
 class Question(models.Model):
@@ -8,7 +8,7 @@ class Question(models.Model):
     title = models.CharField(db_column='Title', max_length=32)  # Field name made lowercase.
     contents = models.CharField(db_column='Contents', max_length=255)  # Field name made lowercase.
     pictureid = models.OneToOneField('Picture', on_delete=models.CASCADE, db_column='PictureID')  # Field name made lowercase.
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 'question'

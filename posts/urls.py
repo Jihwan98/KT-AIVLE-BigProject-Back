@@ -7,8 +7,8 @@ app_name="posts"
 router = DefaultRouter()
 router.register('picture', views.PictureViewSet)
 router.register('question', views.QuestionViewSet)
-# router.register('history', views.HistoryViewSet)
-# router.register('answer', views.AnswerViewSet)
+router.register('history', views.HistoryViewSet)
+router.register('answer', views.AnswerViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls))

@@ -138,8 +138,3 @@ class PetViewSet(ModelViewSet):
         queryset = self.queryset
         queryset = queryset.filter(ownerid=self.request.user)
         return queryset
-    
-        
-        
-    
-    

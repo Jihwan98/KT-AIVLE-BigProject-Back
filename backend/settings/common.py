@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'requests', # pip install requests
     
     # include the providers
     'allauth.socialaccount.providers.naver',
@@ -226,7 +227,7 @@ REST_USE_JWT = True
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30), 
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=180), 
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': False, # True일 경우: TokenRefeshView 에 retresh token을 보내면 새로운 access/refresh token 발급
     'BLACKLIST_AFTER_ROTATION': False, # True 일 시: 새로 고침 토큰 이 블랙리스트에 추가

@@ -279,3 +279,6 @@ else:
     # MEDIA
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+# password reset 시 이메일 전송 관련 설정
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

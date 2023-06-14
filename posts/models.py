@@ -5,11 +5,18 @@ from django.utils import timezone
 class Question(models.Model):
     id = models.AutoField(primary_key=True)
     userid = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='UserID')  # Field name made lowercase.
-    title = models.CharField(db_column='Title', max_length=32)  # Field name made lowercase.
-    contents = models.CharField(db_column='Contents', max_length=255)  # Field name made lowercase.
-    pictureid = models.OneToOneField('Picture', on_delete=models.CASCADE, db_column='PictureID')  # Field name made lowercase.    
+    
+    photo = models.ImageField(upload_to="picture/post/%Y/%m/%d",null=False, blank=False)
+    model_result= models.CharField(max_length=255, blank=True, null=True) # 모델링 결과
+    
+    is_question =  models.BooleanField(default=False) # 게시판에 등록할 경우, True로 update
+    title = models.CharField(db_column='Title', max_length=32, blank=True, null=True)  # Field name made lowercase.
+    contents = models.CharField(db_column='Contents', max_length=255, blank=True, null=True)  # Field name made lowercase.
     created_at = models.DateTimeField(auto_now=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    pet_id= models.ForeignKey('accounts.Pet', on_delete=models.CASCADE, db_column='PetID', blank=True, null=True)
+    
 
     class Meta:
         db_table = 'question'
@@ -17,33 +24,13 @@ class Question(models.Model):
 class Answer(models.Model):
     id = models.AutoField(primary_key=True)
     userid = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='UserID')  # Field name made lowercase.
+    questiontid = models.ForeignKey('Question', on_delete=models.CASCADE, db_column='QuestiontID')  # Field name made lowercase.
     title = models.CharField(db_column='TItle', max_length=32)  # Field name made lowercase.
     contents = models.CharField(db_column='Contents', max_length=255)  # Field name made lowercase.
-    questiontid = models.ForeignKey('Question', on_delete=models.CASCADE, db_column='QuestiontID')  # Field name made lowercase.
     created_at = models.DateTimeField(auto_now=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'answer'
-
-class Picture(models.Model):
-    id = models.AutoField(primary_key=True)
-    photo = models.ImageField(upload_to="picture/post/%Y/%m/%d")
-
-    class Meta:
-        db_table = 'picture'
-
-class History(models.Model):
-    id = models.AutoField(primary_key=True)
-    userid = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='UserID')  # Field name made lowercase.
-    pictureid = models.OneToOneField('Picture', on_delete=models.CASCADE, db_column='PictureID', unique=True)  # Field name made lowercase.
-    created_at = models.DateTimeField(auto_now=True, editable=False)
-    updated_at = models.DateTimeField(auto_now=True)
-    resultnum = models.IntegerField(db_column='resultNum')  # Field name made lowercase.
-    content = models.CharField(db_column='Content', max_length=255)  # Field name made lowercase.
-    petid = models.OneToOneField('accounts.Pet', on_delete=models.CASCADE, db_column='PetID', unique=True)  # Field name made lowercase.
-
-    class Meta:
-        db_table = 'history'
 
 

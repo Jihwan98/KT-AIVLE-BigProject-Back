@@ -32,6 +32,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
     <script type="text/javascript">
       var error_response = function(data){
         $('.api-response').html("API Response: " + data.status + ' ' + data.statusText + '<br/>Content: ' + data.responseText);
@@ -43,6 +44,14 @@
       $().ready(function(){
         $('form.ajax-post button[type=submit]').click(function(){
           var form = $('form.ajax-post');
+          // form.new_password1.value = sha256(form.new_password1.value);
+          // form.new_password2.value = sha256(form.new_password2.value);
+          // console.log("1 :", form.new_password1.value)
+          // console.log("2 :", form.new_password2.value)
+          console.log("form :", form)
+          console.log("form.get('new_password1') :", form.get('new_password1'))
+          console.log("form type :", typeof(form))
+          console.log("ser :", form.serialize())
           $.post(form.attr('action'), form.serialize())
           .fail(function(data){error_response(data);})
           .done(function(data){susccess_response(data);});

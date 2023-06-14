@@ -21,6 +21,9 @@ from rest_framework.viewsets import ModelViewSet
 from .models import Hospital, Pet
 from .serializers import HospitalSerializer, PetSerializer
 
+from django.core import serializers
+from rest_framework import viewsets
+
 main_domain = settings.MAIN_DOMAIN
 
 # DRF의 APIView를 상속받아 View를 구성
@@ -130,3 +133,13 @@ class HospitalViewSet(ModelViewSet):
 class PetViewSet(ModelViewSet):
     queryset = Pet.objects.all()
     serializer_class = PetSerializer
+    
+    def get_queryset(self):
+        queryset = self.queryset
+        queryset = queryset.filter(ownerid=self.request.user)
+        return queryset
+    
+        
+        
+    
+    

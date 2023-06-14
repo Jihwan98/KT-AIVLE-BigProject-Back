@@ -45,10 +45,10 @@ class Pet(models.Model):
     ownerid = models.ForeignKey("User", on_delete=models.CASCADE, db_column='ownerID')  # Field name made lowercase.
     name = models.CharField(max_length=255)
     species = models.CharField(max_length=255, blank=True, null=True)
-    birth = models.DateTimeField(blank=True, null=True)
+    birth = models.DateField(blank=True, null=True)
     gender = models.CharField(max_length=1, blank=True, choices=GenderChoices.choices)
     is_neu = models.BooleanField(default=False) # 중성화여부 (True: 중성화)
-    adoption_date = models.DateTimeField(db_column='adoptionDate', blank=True, null=True)  # Field name made lowercase.
+    adoption_date = models.DateField(db_column='adoptionDate', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         db_table = 'pet'

@@ -257,25 +257,25 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
+AWS = False
+if AWS:
+    # AWS
+    AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID # .csv 파일에 있는 내용을 입력 Access key ID
+    AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY # .csv 파일에 있는 내용을 입력 Secret access key
+    AWS_REGION = 'ap-northeast-2'
 
-# AWS
-AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID # .csv 파일에 있는 내용을 입력 Access key ID
-AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY # .csv 파일에 있는 내용을 입력 Secret access key
-AWS_REGION = 'ap-northeast-2'
+    # S3 Storages
+    AWS_STORAGE_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME # 설정한 버킷 이름
+    AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME,AWS_REGION)
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
 
-# S3 Storages
-AWS_STORAGE_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME # 설정한 버킷 이름
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME,AWS_REGION)
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-
-# MEDIA
-MEDIA_URL = "https://%s/media/" % AWS_S3_CUSTOM_DOMAIN
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE = 'settings_params.MediaStorage'
-
-
-# MEDIA
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+    # MEDIA
+    MEDIA_URL = "https://%s/media/" % AWS_S3_CUSTOM_DOMAIN
+    # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    DEFAULT_FILE_STORAGE = 'settings_params.MediaStorage'
+else:
+    # MEDIA
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR,'media')

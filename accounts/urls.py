@@ -1,21 +1,20 @@
 from django.urls import path, include
 from .views import *
-from rest_framework_simplejwt.views import TokenRefreshView
-
+from dj_rest_auth.views import PasswordResetView, PasswordResetConfirmView
 from accounts.views import (
     NaverLoginAPIView, NaverCallbackAPIView, NaverToDjangoLoginView
     )
+from django.views.generic import TemplateView
 
-
-app_name="accounts"
-urlpatterns = [
-    # path("register/", RegisterAPIView.as_view()), # post - 회원가입
-    # path("auth/", AuthAPIView.as_view()), # post - 로그인, delete - 로그아웃, get - 유저정보
-    # path("auth/refresh/", TokenRefreshView.as_view()), # jwt 토큰 재발급
-    
+urlpatterns = [   
     # 일반 회원 회원가입/로그인
     path('', include('dj_rest_auth.urls')),
     path('registration/', include('dj_rest_auth.registration.urls')),
+
+    # 비밀번호 reset
+    path('password/reset/', PasswordResetView.as_view(), name='password-reset'),
+    path('password/reset/confirm/<str:uidb64>/<str:token>', TemplateView.as_view(template_name="password_reset_confirm.html"), name='password_reset_confirm'),
+
     # Naver Login
     path('naver/login',NaverLoginAPIView.as_view()),
     path('naver/callback', NaverCallbackAPIView.as_view()),

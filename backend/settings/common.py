@@ -195,6 +195,7 @@ REST_AUTH = {
     'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-token',
     'JWT_AUTH_HTTPONLY' : False,
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer', # Custom Serializer 
+    'USER_DETAILS_SERIALIZER' : 'accounts.serializers.CustomUserDetailsSerializer', # Custom Serializer
 }
 
 SITE_ID = 1

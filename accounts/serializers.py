@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import UserDetailsSerializer
 from django.contrib.auth import get_user_model
 
 # 기본 유저 모델 불러오기
@@ -19,7 +20,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         return data
 
 # 사용자 정보 추출
-class UserSerializer(serializers.ModelSerializer):
+class CustomUserDetailsSerializer(UserDetailsSerializer):
     class Meta:
         model = User
-        fields = ('id', 'email', 'first_name', 'is_vet', 'profile_image')
+        fields = ('id', 'email', 'first_name', 'is_vet')

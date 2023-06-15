@@ -17,7 +17,19 @@ from dj_rest_auth.registration.views import SocialLoginView
 from django.http import JsonResponse
 from json import JSONDecodeError
 
+from .models import *
+
 main_domain = settings.MAIN_DOMAIN
+
+# DB에 email 정보가 존재하는지 여부 판단
+class EmailCheckAPIView(APIView):
+    permission_classes = (AllowAny,)
+    def post(self, request):
+        email = request.data.get('email')
+        if User.objects.filter(email=email).exists(): # 이미 DB에 해당 email이 존재
+            return JsonResponse({"success": False, "message" : "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
+        else: # 생성가능
+            return JsonResponse({"success": True, "message" : "Available emails"}, status=status.HTTP_200_OK)
 
 # DRF의 APIView를 상속받아 View를 구성
 class NaverLoginAPIView(APIView):

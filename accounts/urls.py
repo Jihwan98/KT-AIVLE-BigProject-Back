@@ -10,6 +10,7 @@ urlpatterns = [
     # 일반 회원 회원가입/로그인
     path('', include('dj_rest_auth.urls')),
     path('registration/', include('dj_rest_auth.registration.urls')),
+    path('email/check/', EmailCheckAPIView.as_view()), # 이메일 중복 체크
 
     # 비밀번호 reset
     path('password/reset/', PasswordResetView.as_view(), name='password-reset'),

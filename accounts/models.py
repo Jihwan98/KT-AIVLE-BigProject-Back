@@ -6,7 +6,7 @@ from .managers import UserManager
 
 class User(AbstractUser):
     username = None
-    email = models.EmailField(_('email address'), unique=True, null=False, blank=False)
+    email = models.EmailField(_('email address'), unique=True, null=False, blank=False, editable=False)
     
     # 반려인(False), 수의사(True)
     is_vet = models.BooleanField(default=False, blank=True, null=True)

@@ -25,7 +25,17 @@ urlpatterns = [
     path('naver/login',NaverLoginAPIView.as_view()),
     path('naver/callback', NaverCallbackAPIView.as_view()),
     path('naver/login/success', NaverToDjangoLoginView.as_view()),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    
+    # Kakao Login
+    # path('kakao/login', KakaoLoginAPIView.as_view()),
+    # path('kakao/callback/', KakaoCallbackAPIView.as_view()),
+    # path('kakao/login/success', KakaoToDjangoLoginView.as_view()),
+    
+    # Google Login
+    path('google/login', GoogleLoginAPIView.as_view()),
+    path('google/callback', GoogleCallbackAPIView.as_view()),
+    path('google/login/success', GoogleToDjangoLoginView.as_view()),
 ]
 
 #https://nid.naver.com/oauth2.0/authorize?response_type=code&state=NAVER_LOGIN_STRING&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fuser%2Fnaver%2Fcallback&client_id=Qd5paRgcxlgMxClKlirF&oauth_os=&inapp_view=&locale=ko_KR

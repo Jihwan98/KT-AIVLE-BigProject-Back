@@ -16,6 +16,9 @@ from os.path import abspath, dirname, join
 from datetime import timedelta
 
 from settings_params import *
+# setting_params에 정보를 올려놨더니, 해당 내용은 commit이 안됨
+from secret import *
+
 from datetime import timedelta
 
 import sys
@@ -26,7 +29,7 @@ import sys
 BASE_DIR = dirname(dirname(dirname(abspath(__file__))))
 
 
-for key, value in SOCIAL_LOGIN.items():
+for key, value in SOCIAL_INFO.items():
     setattr(sys.modules[__name__], key, value)
 
 

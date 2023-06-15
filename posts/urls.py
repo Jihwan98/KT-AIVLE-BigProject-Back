@@ -9,4 +9,5 @@ router = DefaultRouter()
 
 urlpatterns = [
     path('api/', include(router.urls)),
+    path('api/questionlist', views.QuestionListView.as_view())
 ]

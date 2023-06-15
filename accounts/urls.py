@@ -20,6 +20,9 @@ urlpatterns = [
     path('naver/login',NaverLoginAPIView.as_view()),
     path('naver/callback', NaverCallbackAPIView.as_view()),
     path('naver/login/success', NaverToDjangoLoginView.as_view()),
+
+    # Google Login
+    path('google/', GoogleLogin.as_view(), name='google_login')
     
 ]
 

@@ -21,6 +21,19 @@ from .models import *
 
 main_domain = settings.MAIN_DOMAIN
 
+
+# Google OAuth Test
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from dj_rest_auth.registration.views import SocialLoginView
+
+class GoogleLogin(SocialLoginView): # if you want to use Authorization Code Grant, use this
+    adapter_class = GoogleOAuth2Adapter
+    # callback_url = CALLBACK_URL_YOU_SET_ON_GOOGLE
+    client_class = OAuth2Client
+
+
+
 # DB에 email 정보가 존재하는지 여부 판단
 class EmailCheckAPIView(APIView):
     permission_classes = (AllowAny,)

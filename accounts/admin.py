@@ -3,8 +3,6 @@ from .models import *
 from django.contrib.sites.models import Site
 from allauth.socialaccount.models import SocialApp
 
-admin.site.unregister(Site)
-
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     pass

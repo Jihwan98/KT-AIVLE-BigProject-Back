@@ -29,9 +29,9 @@ urlpatterns = [
     path('naver/login/success', NaverToDjangoLoginView.as_view()),
 
     # Google Login
-    path('google/', GoogleLogin.as_view(), name='google_login')
-    
-    path('api/', include(router.urls))
+    path('google/', GoogleLogin.as_view(), name='google_login'),
+
+    path('api/', include(router.urls)),
 ]
 
 #https://nid.naver.com/oauth2.0/authorize?response_type=code&state=NAVER_LOGIN_STRING&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fuser%2Fnaver%2Fcallback&client_id=Qd5paRgcxlgMxClKlirF&oauth_os=&inapp_view=&locale=ko_KR

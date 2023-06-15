@@ -7,7 +7,7 @@
     <meta name="description" content="Django-dj-rest-auth demo">
     <meta name="author" content="iMerica, Inc.">
 
-    <title>dj-rest-auth demo</title>
+    <title>Aivle 11</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -32,6 +32,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
     <script type="text/javascript">
       var error_response = function(data){
         $('.api-response').html("API Response: " + data.status + ' ' + data.statusText + '<br/>Content: ' + data.responseText);
@@ -43,7 +44,16 @@
       $().ready(function(){
         $('form.ajax-post button[type=submit]').click(function(){
           var form = $('form.ajax-post');
-          $.post(form.attr('action'), form.serialize())
+
+          var ser = form.serialize().split("&");
+          var ser1 = ser.slice(0, -2);
+          var npw = ser.slice(-2);
+          npw[0] = "new_password1=" + sha256(npw[0].split("=")[1]);
+          npw[1] = "new_password2=" + sha256(npw[1].split("=")[1]);
+          var result = ser1.join("&") + "&" + npw.join("&");  
+
+          // $.post(form.attr('action'), form.serialize())
+          $.post(form.attr('action'), result)
           .fail(function(data){error_response(data);})
           .done(function(data){susccess_response(data);});
           return false;

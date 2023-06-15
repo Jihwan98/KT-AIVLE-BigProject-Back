@@ -270,7 +270,7 @@ class GoogleLoginAPIView(APIView):
     def get(self, request):
         GOOGLE_CLIENT_ID = settings.GOOGLE_CLIENT_ID
 
-        local_callback_uri = "http://127.0.0.1:8000/accounts/google/callback"
+        local_callback_uri = f"{main_domain}accounts/google/callback"
 
         google_auth_api = "https://accounts.google.com/o/oauth2/v2/auth"
         scope = (
@@ -296,7 +296,7 @@ class GoogleCallbackAPIView(APIView):
         GOOGLE_CLIENT_ID = '375584534650-k59r41tkahfjikkq2r3qod42bis6851d.apps.googleusercontent.com'
         GOOGLE_SECRET = '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'
 
-        local_callback_uri = "http://127.0.0.1:8000/accounts/google/callback"
+        local_callback_uri = f"{main_domain}accounts/google/callback"
 
         state = "random_string"
 

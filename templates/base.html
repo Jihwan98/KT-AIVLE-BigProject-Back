@@ -44,15 +44,16 @@
       $().ready(function(){
         $('form.ajax-post button[type=submit]').click(function(){
           var form = $('form.ajax-post');
-          // form.new_password1.value = sha256(form.new_password1.value);
-          // form.new_password2.value = sha256(form.new_password2.value);
-          // console.log("1 :", form.new_password1.value)
-          // console.log("2 :", form.new_password2.value)
-          console.log("form :", form)
-          console.log("form.get('new_password1') :", form.get('new_password1'))
-          console.log("form type :", typeof(form))
-          console.log("ser :", form.serialize())
-          $.post(form.attr('action'), form.serialize())
+
+          var ser = form.serialize().split("&");
+          var ser1 = ser.slice(0, -2);
+          var npw = ser.slice(-2);
+          npw[0] = "new_password1=" + sha256(npw[0].split("=")[1]);
+          npw[1] = "new_password2=" + sha256(npw[1].split("=")[1]);
+          var result = ser1.join("&") + "&" + npw.join("&");  
+
+          // $.post(form.attr('action'), form.serialize())
+          $.post(form.attr('action'), result)
           .fail(function(data){error_response(data);})
           .done(function(data){susccess_response(data);});
           return false;

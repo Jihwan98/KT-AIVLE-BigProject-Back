@@ -9,7 +9,7 @@ class User(AbstractUser):
     email = models.EmailField(_('email address'), unique=True, null=False, blank=False)
     
     # 반려인(False), 수의사(True)
-    is_vet = models.BooleanField(default=False)
+    is_vet = models.BooleanField(default=False, blank=True, null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 

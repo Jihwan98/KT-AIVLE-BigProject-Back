@@ -183,6 +183,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # default AUTH_USER 
 AUTH_USER_MODEL = 'accounts.User'
 
+# Custom Adapter
+ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
+
+
 # dj-rest-auth
 REST_AUTH = {
     'USER_DETAILS_SERIALIZER': 'dj_rest_auth.serializers.UserDetailsSerializer',
@@ -190,6 +194,7 @@ REST_AUTH = {
     'JWT_AUTH_COOKIE': 'my-app-auth',
     'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-token',
     'JWT_AUTH_HTTPONLY' : False,
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer', # Custom Serializer 
 }
 
 SITE_ID = 1

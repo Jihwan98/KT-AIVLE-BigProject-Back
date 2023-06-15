@@ -7,8 +7,6 @@ from accounts.views import (
     )
 from django.views.generic import TemplateView
 
-app_name="accounts"
-
 router = DefaultRouter()
 router.register('hospital', HospitalViewSet)
 router.register('pet', PetViewSet)

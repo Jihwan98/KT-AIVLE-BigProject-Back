@@ -24,7 +24,7 @@ class Question(models.Model):
 class Answer(models.Model):
     id = models.AutoField(primary_key=True)
     userid = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='UserID')  # Field name made lowercase.
-    questiontid = models.ForeignKey('Question', on_delete=models.CASCADE, db_column='QuestiontID')  # Field name made lowercase.
+    questionid = models.ForeignKey('Question', on_delete=models.CASCADE, db_column='Questionid')  # Field name made lowercase.
     title = models.CharField(db_column='TItle', max_length=32)  # Field name made lowercase.
     contents = models.CharField(db_column='Contents', max_length=255)  # Field name made lowercase.
     created_at = models.DateTimeField(auto_now=True, editable=False)

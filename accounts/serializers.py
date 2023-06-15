@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from .models import Hospital, Pet
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import UserDetailsSerializer
 from django.contrib.auth import get_user_model
@@ -24,3 +25,22 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
     class Meta:
         model = User
         fields = ('id', 'email', 'first_name', 'is_vet')
+
+class  HospitalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hospital
+        fields = "__all__"
+        
+class  PetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pet
+        
+        # 수정시 owner_id 수정 못하도록 필드 제한
+        fields = ["id", "name", "species", "birth", "gender", "is_neu", "adoption_date"]
+    
+    # 생성시에는 user에 접근하여 ownerid에 값을 넣도록
+    def create(self, validated_data):
+        validated_data["ownerid"] = self.context['request'].user
+        pet = Pet.objects.create(**validated_data)
+        pet.save()
+        return pet

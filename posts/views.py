@@ -10,6 +10,6 @@ class QuestionListView(ListAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionListSerializer
     
-    def get_object(self):
+    def get_queryset(self):
         return Question.objects.filter(is_question=True)
 

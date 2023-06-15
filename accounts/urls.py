@@ -7,8 +7,6 @@ from accounts.views import (
     )
 from django.views.generic import TemplateView
 
-app_name="accounts"
-
 router = DefaultRouter()
 router.register('hospital', HospitalViewSet)
 router.register('pet', PetViewSet)
@@ -29,7 +27,10 @@ urlpatterns = [
     path('naver/login/success', NaverToDjangoLoginView.as_view()),
 
     # Google Login
-    path('google/', GoogleLogin.as_view(), name='google_login'),
+    # path('google/', GoogleLogin.as_view(), name='google_login'),
+    path('google/login', google_login, name='google_login'),
+    path('google/callback/', google_callback, name='google_callback'),
+    path('google/login/finish/', GoogleLogin.as_view(), name='google_login_todjango'),
 
     path('api/', include(router.urls)),
 ]

@@ -38,7 +38,11 @@ class EmailCheckAPIView(APIView):
 # accounts/api/hospital     
 class HospitalViewSet(ModelViewSet):
     queryset = Hospital.objects.all()
-    serializer_class = HospitalSerializer    
+    serializer_class = HospitalSerializer
+    def get_queryset(self):
+        queryset = self.queryset
+        queryset = queryset.filter(user_id=self.request.user)
+        return queryset
 
 # accounts/api/pet 
 class PetViewSet(ModelViewSet):

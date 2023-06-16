@@ -26,7 +26,7 @@ class User(AbstractUser):
 
 class Hospital(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_id = models.OneToOneField("User", on_delete=models.CASCADE, editable=False, db_column='user_id')
     hos_name = models.CharField(max_length=255, blank=True, null=True) # 병원이름
     address = models.CharField(max_length=255, blank=True, null=True)
     officenumber = models.CharField(db_column='officeNumber', max_length=255, blank=True, null=True)  # Field name made lowercase.

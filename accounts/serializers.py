@@ -30,6 +30,13 @@ class  HospitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hospital
         fields = "__all__"
+    
+    # 생성시에는 user에 접근하여 ownerid에 값을 넣도록
+    def create(self, validated_data):
+        validated_data["user_id"] = self.context['request'].user
+        hos = Hospital.objects.create(**validated_data)
+        hos.save()
+        return hos
         
 class  PetSerializer(serializers.ModelSerializer):
     class Meta:

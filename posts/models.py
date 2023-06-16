@@ -8,7 +8,11 @@ class Picture(models.Model):
     photo = models.ImageField(upload_to="picture/post/", null=False, blank=False)
     created_at = models.DateTimeField(auto_now=True, editable=False)
     model_result= models.CharField(max_length=255, blank=True, null=True) # 모델링 결과
+    pet_id= models.ForeignKey('accounts.Pet', on_delete=models.CASCADE, db_column='PetID', blank=True, null=True)
     
+    class Meta:
+        db_table = 'picture'
+        
 class Question(models.Model):
     id = models.AutoField(primary_key=True)
     userid = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='UserID')  # Field name made lowercase.
@@ -19,9 +23,6 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
     
-    pet_id= models.ForeignKey('accounts.Pet', on_delete=models.CASCADE, db_column='PetID', blank=True, null=True)
-    
-
     class Meta:
         db_table = 'question'
 

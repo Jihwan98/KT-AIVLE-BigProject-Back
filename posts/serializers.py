@@ -1,7 +1,7 @@
-from rest_framework import serializers
-from .models import Question, Answer
+from rest_framework.serializers import ModelSerializer
+from .models import *
 
-class AnswerSerializer(serializers.ModelSerializer):
+class AnswerSerializer(ModelSerializer):
     class Meta:
         model = Answer
         fields = ['id']
@@ -12,18 +12,18 @@ class PictureSerializer(ModelSerializer):
         fields = '__all__'
     # 생성시에는 user에 접근하여 userid에 값을 넣도록
     def create(self, validated_data):
-        validated_data["user_id"] = self.context['request'].user
-        hos = Hospital.objects.create(**validated_data)
-        hos.save()
-        return hos
+        validated_data["userid"] = self.context['request'].user
+        pic = Picture.objects.create(**validated_data)
+        pic.save()
+        return pic
     
 class QuestionSerializer(ModelSerializer):
     class Meta:
         model = Question
         fields = '__all__'
-    # 생성시에는 user에 접근하여 ownerid에 값을 넣도록
+    # 생성시에는 user에 접근하여 userid에 값을 넣도록
     def create(self, validated_data):
-        validated_data["user_id"] = self.context['request'].user
-        hos = Hospital.objects.create(**validated_data)
-        hos.save()
-        return hos
+        validated_data["userid"] = self.context['request'].user
+        question = Question.objects.create(**validated_data)
+        question.save()
+        return question

@@ -54,3 +54,6 @@ class Pet(models.Model):
 
     class Meta:
         db_table = 'pet'
+    def __str__(self):
+        return self.name
+    

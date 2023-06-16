@@ -6,10 +6,24 @@ class AnswerSerializer(serializers.ModelSerializer):
         model = Answer
         fields = ['id']
 
-class QuestionListSerializer(serializers.ModelSerializer):
-    answer_set = AnswerSerializer(many=True, read_only= True)
-    answer_count = serializers.IntegerField(source='answer_set.count', read_only=True)
-
+class PictureSerializer(ModelSerializer):
+    class Meta:
+        model = Picture
+        fields = '__all__'
+    # 생성시에는 user에 접근하여 userid에 값을 넣도록
+    def create(self, validated_data):
+        validated_data["user_id"] = self.context['request'].user
+        hos = Hospital.objects.create(**validated_data)
+        hos.save()
+        return hos
+    
+class QuestionSerializer(ModelSerializer):
     class Meta:
         model = Question
-        fields =  '__all__'
+        fields = '__all__'
+    # 생성시에는 user에 접근하여 ownerid에 값을 넣도록
+    def create(self, validated_data):
+        validated_data["user_id"] = self.context['request'].user
+        hos = Hospital.objects.create(**validated_data)
+        hos.save()
+        return hos

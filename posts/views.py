@@ -13,5 +13,20 @@ from .serializers import QuestionListSerializer
 #     def get_queryset(self):
 #         return Question.objects.filter(is_question=True)
 
+# accounts/api/Picture     
+class PictureViewSet(ModelViewSet):
+    queryset = Picture.objects.all()
+    serializer_class = PictureSerializer
+    def get_queryset(self):
+        queryset = self.queryset
+        queryset = queryset.filter(user_id=self.request.user)
+        return queryset
+
+# accounts/api/Question     
 class QuestionViewSet(ModelViewSet):
-    
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    def get_queryset(self):
+        queryset = self.queryset
+        queryset = queryset.filter(user_id=self.request.user)
+        return queryset

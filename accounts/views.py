@@ -44,24 +44,6 @@ class EmailCheckAPIView(APIView):
         else: # 생성가능
             return JsonResponse({"success": True, "message" : "Available emails"}, status=status.HTTP_200_OK)
 
-# accounts/api/Picture     
-class PictureViewSet(ModelViewSet):
-    queryset = Picture.objects.all()
-    serializer_class = PictureSerializer
-    def get_queryset(self):
-        queryset = self.queryset
-        queryset = queryset.filter(user_id=self.request.user)
-        return queryset
-
-# accounts/api/Question     
-class QuestionViewSet(ModelViewSet):
-    queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
-    def get_queryset(self):
-        queryset = self.queryset
-        queryset = queryset.filter(user_id=self.request.user)
-        return queryset
-
 # accounts/api/hospital     
 class HospitalViewSet(ModelViewSet):
     queryset = Hospital.objects.all()

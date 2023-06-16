@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Hospital, Pet
+from .models import *
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import UserDetailsSerializer
 from django.contrib.auth import get_user_model

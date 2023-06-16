@@ -18,11 +18,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='question',
-            name='is_question',
-            field=models.BooleanField(default=False),
-        ),
-        migrations.AddField(
-            model_name='question',
             name='model_result',
             field=models.CharField(blank=True, max_length=255, null=True),
         ),

@@ -7,9 +7,10 @@ from .managers import UserManager
 class User(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True, null=False, blank=False, editable=False)
-    
     # 반려인(False), 수의사(True)
     is_vet = models.BooleanField(default=False, blank=True, null=True)
+    profile_img = models.ImageField(upload_to='profile/', default='profile/default.png') # profile image
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
@@ -31,6 +32,7 @@ class Hospital(models.Model):
     address = models.CharField(max_length=255, blank=True, null=True)
     officenumber = models.CharField(db_column='officeNumber', max_length=255, blank=True, null=True)  # Field name made lowercase.
     introduction = models.CharField(max_length=255, blank=True, null=True) # 자기소개
+    hos_profile_img = models.ImageField(upload_to='profile_hos/', default='profile_hos/default.png') # profile image
     
     class Meta:
         db_table = 'hospital'

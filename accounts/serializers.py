@@ -13,10 +13,12 @@ class CustomRegisterSerializer(RegisterSerializer):
     # 추가 설정 필드: is_vet
     first_name = serializers.CharField(required=True)
     is_vet = serializers.BooleanField(default=False)
+    profile_img = serializers.ImageField(default='profile/default.png')
     def get_cleaned_data(self):
         data = super().get_cleaned_data() # username, password, email 이 디폴트
         data['first_name'] = self.validated_data.get('first_name', '')
         data['is_vet'] = self.validated_data.get('is_vet', '')
+        data['profile_img'] = self.validated_data.get('profile_img', '')
 
         return data
 
@@ -24,7 +26,7 @@ class CustomRegisterSerializer(RegisterSerializer):
 class CustomUserDetailsSerializer(UserDetailsSerializer):
     class Meta:
         model = User
-        fields = ('id', 'email', 'first_name', 'is_vet')
+        fields = ('id', 'email', 'first_name', 'is_vet', 'profile_img')
 
 class  HospitalSerializer(serializers.ModelSerializer):
     class Meta:

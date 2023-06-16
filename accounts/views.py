@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from .serializers import *
 from django.conf import settings
 from django.shortcuts import redirect
@@ -24,6 +24,15 @@ from allauth.socialaccount.models import SocialAccount
 
 
 main_domain = settings.MAIN_DOMAIN
+
+class DeleteAccount(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        user=self.request.user
+        user.delete()
+
+        return Response({"result":"user delete"})
 
 # DB에 email 정보가 존재하는지 여부 판단
 class EmailCheckAPIView(APIView):

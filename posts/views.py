@@ -7,24 +7,19 @@ from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView,
 from rest_framework.response import Response
 # Create your views here.
 
-class ListQuestionView(ListAPIView):
-    queryset = Question.objects.all()
-    serializer_class = ListQuestionSerializer
-    
-    def get_queryset(self):
-        return Question.objects.filter(is_question=True)
-
-class CreateQuestionView(CreateAPIView):
+class QuestionViewSet(ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     
     def perform_create(self, serializer):
         serializer.save(userid=self.request.user, is_question = True)
         
-class DetailQuestionView(RetrieveAPIView):
-    queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
+    # 수정시, 사진이 날아가는 것 같은데 반드시 테스트 해볼 것! (테스트 후 주석 삭제)
     
-class DeleteQuestionView(DestroyAPIView):
+
+class ListQuestionView(ListAPIView):
     queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
+    serializer_class = ListQuestionSerializer
+    
+    def get_queryset(self):
+        return Question.objects.filter(is_question=True)

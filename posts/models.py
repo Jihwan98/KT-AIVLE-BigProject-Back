@@ -5,9 +5,9 @@ from django.utils import timezone
 class Picture(models.Model):
     id = models.AutoField(primary_key=True)
     userid = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='UserID', editable=False)  # Field name made lowercase.
-    
-    # photo = models.ImageField(upload_to="picture/post/%Y/%m/%d",null=False, blank=False)
-    # model_result= models.CharField(max_length=255, blank=True, null=True) # 모델링 결과
+    photo = models.ImageField(upload_to="picture/post/", null=False, blank=False)
+    created_at = models.DateTimeField(auto_now=True, editable=False)
+    model_result= models.CharField(max_length=255, blank=True, null=True) # 모델링 결과
     
 class Question(models.Model):
     id = models.AutoField(primary_key=True)

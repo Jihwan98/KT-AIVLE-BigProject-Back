@@ -14,9 +14,4 @@ from .serializers import QuestionListSerializer
 #         return Question.objects.filter(is_question=True)
 
 class QuestionViewSet(ModelViewSet):
-    queryset = Question.objects.all()
-    serializer_class = QuestionListSerializer
     
-    def get_queryset(self):
-        return Question.objects.filter(is_question=True)
-

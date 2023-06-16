@@ -151,112 +151,118 @@ class NaverToDjangoLoginView(SocialLoginView):
     client_class = OAuth2Client
 
 
-# # 카카오 로그인 요청 ~ 인가코드 req & res
-# class KakaoLoginAPIView(APIView):
-#     """
-#     1. 카카오 로그인 요청 -> 사용자 동의 -> 인가 코드 발급 요청
-#     - 인가코드 = 토큰 받기에 필요한 값, 토큰에 부여할 권한 정보를 포함
-#     2. 카카오 인증 서버는 해당 사용자에게 인가 코드를 발급
-#     -> 인가 코드의 요청에 대한 응답 = redirect_uri = HTTP 302 Redirect
-#     -> 해당 Location에 인가 코드가 담긴 쿼리 스트링을 포함
-#     """
-#     permission_classes = (AllowAny, )
+# 카카오 로그인 요청 ~ 인가코드 req & res
+class KakaoLoginAPIView(APIView):
+    """
+    1. 카카오 로그인 요청 -> 사용자 동의 -> 인가 코드 발급 요청
+    - 인가코드 = 토큰 받기에 필요한 값, 토큰에 부여할 권한 정보를 포함
+    2. 카카오 인증 서버는 해당 사용자에게 인가 코드를 발급
+    -> 인가 코드의 요청에 대한 응답 = redirect_uri = HTTP 302 Redirect
+    -> 해당 Location에 인가 코드가 담긴 쿼리 스트링을 포함
+    """
+    permission_classes = (AllowAny, )
     
-#     def get(self, request):
-#         # settings_param.py에 등록해둔 rest_api_key와 redirect_uri
-#         client_id = "0e1fa375bb3d9b356f7ec7213157ccb0"
-#         response_type = "code"
-#         uri = main_domain + "/accounts/kakao/callback"
-#         state = settings.STATE
-#         kakao_url = "https://kauth.kakao.com/oauth/authorize?response_type=code"
-#         return redirect(
-#             f"{kakao_url}&client_id={client_id}&redirect_uri={uri}"
-#             )
+    def get(self, request):
+        # settings_param.py에 등록해둔 rest_api_key와 redirect_uri
+        client_id = "0e1fa375bb3d9b356f7ec7213157ccb0"
+        response_type = "code"
+        uri = main_domain + "/accounts/kakao/callback/"
+        state = settings.STATE
+        kakao_url = "https://kauth.kakao.com/oauth/authorize?response_type=code"
+        return redirect(
+            f"{kakao_url}&client_id={client_id}&redirect_uri={uri}"
+            )
+
+
         
-# # 토큰 받기 요청
-# class KakaoCallbackAPIView(APIView):
-#     """
-#     1. 인가 코드를 활용해 토큰 발급 요청
-#     2. 토큰 발급 요청이 끝나면 카카오 로그인이 정상적으로 완료 가능
-#     """
-#     permission_classes = (AllowAny, )
+# 토큰 받기 요청
+class KakaoCallbackAPIView(APIView):
+    """
+    1. 인가 코드를 활용해 토큰 발급 요청
+    2. 토큰 발급 요청이 끝나면 카카오 로그인이 정상적으로 완료 가능
+    """
+    permission_classes = (AllowAny, )
     
-#     def get(self, request):
-#         """
-#         (1). Access Token Request
-#         """
+    def get(self, request):
+        """
+        (1). Access Token Request
+        """
         
-#         kakao_token_api = "https://kauth.kakao.com/oauth/token"
-#         data = {
-#             "grant_type"  : "authorization_code",
-#             "client_id"   : "0e1fa375bb3d9b356f7ec7213157ccb0",
-#             "redirect_uri": main_domain + "/accounts/kakao/callback",
-#             "code"        : request.GET.get("code")
-#         }
+        kakao_token_api = "https://kauth.kakao.com/oauth/token"
+        data = {
+            "grant_type"  : "authorization_code",
+            "client_id"   : "0e1fa375bb3d9b356f7ec7213157ccb0",
+            "redirect_uri": main_domain + "/accounts/kakao/callback",
+            "code"        : request.GET.get("code")
+        }
         
-#         access_token = requests.post(kakao_token_api, data=data).json().get('access_token')
-#         refresh_token = requests.post(kakao_token_api, data=data).json().get('refresh_token')
-#         return JsonResponse({"token": access_token})
-#         id_token = requests.post(kakao_token_api, data=data).json().get('id_token')
-#         """
-#         (2). 발급받은 토큰을 이용해서 GET 요청 
-#         """
-#         user_info = requests.get('https://kapi.kakao.com/v2/user/me', headers={"Authorization": f"Bearer {access_token}"}).json()
+        access_token = requests.post(kakao_token_api, data=data).json().get('access_token')
+        refresh_token = requests.post(kakao_token_api, data=data).json().get('refresh_token')
+        #return JsonResponse({"token": access_token})
+        id_token = requests.post(kakao_token_api, data=data).json().get('id_token')
+        """
+        (2). 발급받은 토큰을 이용해서 GET 요청 
+        """
+        user_info = requests.get('https://kapi.kakao.com/v2/user/me', headers={"Authorization": f"Bearer {access_token}"}).json()
         
-#         # return JsonResponse({"user_info": user_info})
+        # return JsonResponse({"user_info": user_info})
         
-#         """
-#         (3) 1.전달 받은 사용자 정보를 이용해서, 내가 원하는 형태로 저장할 수 있도록 변수를 설정
-#             2.DB에 원하는 정보가 없다면 저장, 정보가 이미 존재하면 바로 로그인(토큰 발급)
-#         """
-#         # 우리 DB: first_name, last_name, email, 
+        """
+        (3) 1.전달 받은 사용자 정보를 이용해서, 내가 원하는 형태로 저장할 수 있도록 변수를 설정
+            2.DB에 원하는 정보가 없다면 저장, 정보가 이미 존재하면 바로 로그인(토큰 발급)
+        """
+        # 우리 DB: first_name, last_name, email, 
         
-#         # kakao_acount = user_info.get("kakao_account")
-#         #kakao_email = kakao_acount.get("email")
-#         # kakao_id = kakao_acount.get("id")
-#         #kakao_name = kakao_acount["profile"].get('nickname')
+        kakao_acount = user_info.get("kakao_account")
+        kakao_email = kakao_acount.get("email")
+        kakao_id = kakao_acount.get("id")
+        kakao_name = kakao_acount["profile"].get('nickname')
         
-#         #return JsonResponse({"kakao": kakao_acount})
+        #return JsonResponse({"kakao": kakao_acount})
         
-#         #kakao_id = user_info["id"] # 카카오 ID
-#         #kakao_name = user_info["properties"]["nickname"] # 카카오 닉네임은 대부분 이름으로 설정하는 경우가 많음
-#         #kakao_name = user_info["name"]
-#         #kakao_email = user_info.get("email")  # 카카오 이메일
-#         #kakao_name = user_info["kakao_account"].name_needs_agreement
-#         #profile_image_url = user_info["properties"]["profile_image"]: 카톡 프사
+        # kakao_id = user_info["id"] # 카카오 ID
+        # kakao_name = user_info["properties"]["nickname"] # 카카오 닉네임은 대부분 이름으로 설정하는 경우가 많음
+        # kakao_name = user_info["name"]
+        # kakao_email = user_info.get("email")  # 카카오 이메일
+        # kakao_name = user_info["kakao_account"].name_needs_agreement
+        # profile_image_url = user_info["properties"]["profile_image"]: 카톡 프사
         
-#         # if kakao_email is None:
-#         #     return JsonResponse({
-#         #         "error": "Can't get Email information"
-#         #     }, status=400)
-#         # try:
-#         #     user = User.objects.get(email=kakao_id)
-#         #     data = {'access_token': access_token, "code": request.GET.get('code')}
-#         #     accept = requests.post(
-#         #         f"{main_domain}/accounts/kakao/login/success"
-#         #     )
-#         #     if accept.status_code != 200:
-#         #             return JsonResponse({"error": "Failed to Signin."}, status=accept.status_code)
-#         #     return Response(accept.json(), status=status.HTTP_200_OK)
-#         # except User.DoesNotExist:
-#         #     data = {'access_token': access_token, 'code': request.GET.get('code')}
-#         #     accept = requests.post(
-#         #             f"{main_domain}/accounts/naver/login/success", data=data
-#         #         )
-#         #     # token 발급
-#         #     return Response(accept.json(), status=status.HTTP_200_OK)
+        if kakao_email is None:
+            return JsonResponse({
+                "error": "Can't get Email information"
+            }, status=400)
+        try:
+            user = User.objects.get(email=kakao_id)
+            data = {'access_token': access_token, "code": request.GET.get('code')}
+            accept = requests.post(
+                f"{main_domain}/accounts/kakao/login/success"
+            )
+            if accept.status_code != 200:
+                    return JsonResponse({"error": "Failed to Signin."}, status=accept.status_code)
+            return Response(accept.json(), status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            data = {'access_token': access_token, 'code': request.GET.get('code')}
+            accept = requests.post(
+                    f"{main_domain}/accounts/naver/login/success", data=data
+                )
+            # token 발급
+            return Response(accept.json(), status=status.HTTP_200_OK)
     
             
+
+
+
+
             
             
            
-#             #firstname에만 이름으 다 넣는 식으로
+            #firstname에만 이름으 다 넣는 식으로
         
             
-# class KakaoToDjangoLoginView(SocialLoginView):
-#     adapter_class = kakao_views.KakaoOAuth2Adapter
-#     client_class = OAuth2Client
-#     callback_url = settings.KAKAO_REDIRECT_URI
+class KakaoToDjangoLoginView(SocialLoginView):
+    adapter_class = kakao_views.KakaoOAuth2Adapter
+    client_class = OAuth2Client
+    callback_url = settings.KAKAO_REDIRECT_URI
     
 
 

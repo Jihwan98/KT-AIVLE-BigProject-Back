@@ -28,8 +28,8 @@ urlpatterns = [
     path('api/', include(router.urls)),
     
     # Kakao Login
-    # path('kakao/login', KakaoLoginAPIView.as_view()),
-    # path('kakao/callback/', KakaoCallbackAPIView.as_view()),
+    path('kakao/login/', KakaoLoginAPIView.as_view()),
+    path('kakao/callback/', KakaoCallbackAPIView.as_view()),
     # path('kakao/login/success', KakaoToDjangoLoginView.as_view()),
     
     # Google Login

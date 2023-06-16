@@ -13,3 +13,18 @@ class QuestionListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields =  '__all__'
+
+class PictureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ['contents']
+    
+class ChatGptQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ['contents', 'title', 'model_result']
+
+class ChatGptAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = ['contents']

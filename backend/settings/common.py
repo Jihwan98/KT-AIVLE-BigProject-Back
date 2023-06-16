@@ -17,7 +17,7 @@ from datetime import timedelta
 
 from settings_params import *
 # setting_params에 정보를 올려놨더니, 해당 내용은 commit이 안됨
-from secret import *
+# from secret import *
 
 from datetime import timedelta
 

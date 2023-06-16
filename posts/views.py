@@ -3,7 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 from .models import Question, Answer
 from .serializers import ListQuestionSerializer, QuestionSerializer
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, DestroyAPIView
 from rest_framework.response import Response
 # Create your views here.
 
@@ -20,3 +20,11 @@ class CreateQuestionView(CreateAPIView):
     
     def perform_create(self, serializer):
         serializer.save(userid=self.request.user, is_question = True)
+        
+class DetailQuestionView(RetrieveAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    
+class DeleteQuestionView(DestroyAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer

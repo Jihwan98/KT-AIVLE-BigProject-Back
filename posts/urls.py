@@ -16,5 +16,7 @@ router = DefaultRouter()
 urlpatterns = [
     path('api/', include(router.urls)),
     path('api/questionlist', views.ListQuestionView.as_view()),
-    path('api/createquestion', views.CreateQuestionView.as_view())
+    path('api/questionlist/<int:pk>/', views.DetailQuestionView.as_view()),
+    path('api/createquestion', views.CreateQuestionView.as_view()),
+    path('api/questionlist/<int:pk>/delete', views.DeleteQuestionView.as_view()), # /delete 빼고 싶은데 get으로 밖에 안감
 ]

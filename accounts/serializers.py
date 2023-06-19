@@ -3,6 +3,8 @@ from .models import *
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import UserDetailsSerializer
 from django.contrib.auth import get_user_model
+from django.urls import reverse
+from pydenticon import Generator
 
 # 기본 유저 모델 불러오기
 User = get_user_model()
@@ -55,8 +57,16 @@ class PetSerializer(serializers.ModelSerializer):
         return pet
     
 class UserdetailSerializer(serializers.ModelSerializer):
+    
+    avatar_url = serializers.SerializerMethodField()
+    
     class Meta:
         model = User
         # fields = '__all__'
-        fields = ['id' ,'email', 'first_name', 'is_vet', 'avatar']
-        read_only_fields = ['id' ,'email', 'first_name', 'is_vet', 'avatar']
+        fields = ['id' ,'email', 'first_name', 'is_vet', 'avatar', 'avatar_url']
+        read_only_fields = ['id' ,'email', 'first_name', 'is_vet', 'avatar', 'avatar_url']
+    
+    def get_avatar_url(self, user):
+        request = self.context.get('request')
+        photo_url = user.avatar
+        return request.build_absolute_uri(photo_url)

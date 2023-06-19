@@ -14,6 +14,11 @@ class QuestionViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(userid=self.request.user, is_question = True)
         
+    # def get_queryset(self):
+    #     serializer_class = ListQuestionSerializer
+    #     return Question.objects.filter(is_question=True)
+    
+        
     # 수정시, 사진이 날아가는 것 같은데 반드시 테스트 해볼 것! (테스트 후 주석 삭제)
     
 

@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -41,3 +41,10 @@ class QuestionViewSet(ModelViewSet):
         queryset = self.queryset
         queryset = queryset.filter(userid=self.request.user)
         return queryset
+
+# 모든 Question 조회
+# posts/api/question-list-all/
+class QuestionList(generics.ListCreateAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    permission_classes = [AllowAny]

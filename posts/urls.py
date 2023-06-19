@@ -10,4 +10,5 @@ router.register('question', views.QuestionViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
+    path('api/question-list-all/', views.QuestionList.as_view()),
 ]

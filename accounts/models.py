@@ -6,19 +6,14 @@ from .managers import UserManager
 
 class User(AbstractUser):
     username = None
-    email = models.EmailField(_('email address'), unique=True, null=False, blank=False, editable=False)
-    # 반려인(False), 수의사(True)
-    is_vet = models.BooleanField(default=False, blank=True, null=True)
-    profile_img = models.ImageField(upload_to='profile/') # profile image
+    email = models.EmailField(_('email address'), unique=True, null=False, blank=False)
+    is_vet = models.BooleanField(default=False, blank=True, null=True) # 반려인(False), 수의사(True)
+    profile_img = models.ImageField(upload_to='profile/', blank=True) # profile image
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     objects = UserManager()
-    
-    # @property
-    # def name(self):
-    #     return f"{self.first_name} {self.last_name}"
     
     def __str__(self):
         return self.email

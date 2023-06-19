@@ -1,3 +1,4 @@
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from .models import *
 
@@ -18,6 +19,8 @@ class PictureSerializer(ModelSerializer):
         return pic
     
 class QuestionSerializer(ModelSerializer):
+    answer_set = AnswerSerializer(many=True, read_only=True)
+    answer_count = serializers.IntegerField(source='answer_set.count', read_only=True)
     class Meta:
         model = Question
         fields = '__all__'

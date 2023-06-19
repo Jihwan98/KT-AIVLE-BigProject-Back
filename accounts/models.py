@@ -1,29 +1,32 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
-
+from django.shortcuts import resolve_url
 from .managers import UserManager
 
 class User(AbstractUser):
     username = None
-    email = models.EmailField(_('email address'), unique=True, null=False, blank=False, editable=False)
-    # 반려인(False), 수의사(True)
-    is_vet = models.BooleanField(default=False, blank=True, null=True)
-    profile_img = models.ImageField(upload_to='profile/', default='profile/default.png') # profile image
+    email = models.EmailField(_('email address'), unique=True, null=False, blank=False)
+    is_vet = models.BooleanField(default=False, blank=True, null=True) # 반려인(False), 수의사(True)
+    profile_img = models.ImageField(upload_to='profile/', blank=True) # profile image
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     objects = UserManager()
     
-    # @property
-    # def name(self):
-    #     return f"{self.first_name} {self.last_name}"
-    
     def __str__(self):
         return self.email
     class Meta:
         db_table = 'user'
+        
+    # 프로필 이미지 없을시 pydenticon 표기
+    @property
+    def avatar(self):
+        if self.profile_img:
+            return self.profile_img.url
+        else:
+            return resolve_url("pydenticon_image", self.email)
 
 class Hospital(models.Model):
     id = models.AutoField(primary_key=True)

@@ -40,7 +40,7 @@ class  HospitalSerializer(serializers.ModelSerializer):
         hos.save()
         return hos
         
-class  PetSerializer(serializers.ModelSerializer):
+class PetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pet
         
@@ -53,3 +53,10 @@ class  PetSerializer(serializers.ModelSerializer):
         pet = Pet.objects.create(**validated_data)
         pet.save()
         return pet
+    
+class UserdetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        # fields = '__all__'
+        fields = ['id' ,'email', 'first_name', 'is_vet', 'avatar']
+        read_only_fields = ['id' ,'email', 'first_name', 'is_vet', 'avatar']

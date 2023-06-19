@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+    'django_pydenticon', # pip install django-pydenticon
     
     'allauth',
     'allauth.account',
@@ -299,3 +300,10 @@ EMAIL_HOST_USER = EMAIL_HOST_USER           # 발신할 이메일
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD   # 발신할 메일의 비밀번호
 EMAIL_USE_TLS = True                        # TLS 보안 방법
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER        # 사이트와 관련한 자동응답을 받을 이메일 주소
+
+
+# pydenticon 관련 settings 내 Callable 참조가 3.9까지만 지원됨
+# 몽키패칭으로 Callable 속성 복사
+import collections
+if not hasattr(collections, 'Callable'):
+    collections.Callable = collections.abc.Callable

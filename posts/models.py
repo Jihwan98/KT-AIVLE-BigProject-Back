@@ -12,6 +12,8 @@ class Picture(models.Model):
     
     class Meta:
         db_table = 'picture'
+    def __str__(self) -> str:
+        return f"userid : {self.userid}, pet_id : {self.pet_id}"
         
 class Question(models.Model):
     id = models.AutoField(primary_key=True)

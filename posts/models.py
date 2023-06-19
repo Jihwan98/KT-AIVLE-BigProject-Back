@@ -6,7 +6,7 @@ class Picture(models.Model):
     id = models.AutoField(primary_key=True)
     userid = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='UserID', editable=False)  # Field name made lowercase.
     photo = models.ImageField(upload_to="picture/post/", null=False, blank=False)
-    created_at = models.DateTimeField(auto_now=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     model_result= models.CharField(max_length=255, blank=True, null=True) # 모델링 결과
     pet_id= models.ForeignKey('accounts.Pet', on_delete=models.CASCADE, db_column='PetID', blank=False, null=False)
     
@@ -20,7 +20,7 @@ class Question(models.Model):
 
     title = models.CharField(db_column='Title', max_length=32, blank=True, null=True)  # Field name made lowercase.
     contents = models.CharField(db_column='Contents', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    created_at = models.DateTimeField(auto_now=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
@@ -34,7 +34,7 @@ class Answer(models.Model):
     questionid = models.ForeignKey('Question', on_delete=models.CASCADE, db_column='Questionid')  # Field name made lowercase.
     title = models.CharField(db_column='TItle', max_length=32)  # Field name made lowercase.
     contents = models.CharField(db_column='Contents', max_length=255)  # Field name made lowercase.
-    created_at = models.DateTimeField(auto_now=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:

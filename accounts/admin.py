@@ -17,9 +17,14 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Hospital)
 class HospitalAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['hos_name', 'address', 'introduction', 'hos_profile_img_url']
+    list_display_links= ['hos_name', 'address', 'introduction', 'hos_profile_img_url']
+    
+    def hos_profile_img_url(self, hospital):
+        return mark_safe(f"<img src={hospital.hos_profile_img.url} style='width: 100px;' />")
 
 @admin.register(Pet)
 class PetAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'species', 'ownerid', 'birth', 'gender']
+    list_display_links= ['name', 'species', 'ownerid', 'birth', 'gender']
 

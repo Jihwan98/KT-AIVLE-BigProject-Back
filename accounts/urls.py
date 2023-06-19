@@ -6,6 +6,7 @@ from accounts.views import (
     NaverLoginAPIView, NaverCallbackAPIView, NaverToDjangoLoginView
     )
 from django.views.generic import TemplateView
+from django_pydenticon.views import image as pydenticon_image
 
 router = DefaultRouter()
 router.register('hospital', HospitalViewSet)
@@ -37,6 +38,8 @@ urlpatterns = [
     path('google/login', GoogleLoginAPIView.as_view()),
     path('google/callback', GoogleCallbackAPIView.as_view()),
     path('google/login/success', GoogleToDjangoLoginView.as_view()),
-]
+
+    # pydenticon
+    path('identicon/image/<path:data>/', pydenticon_image, name='pydenticon_image'),]
 
 #https://nid.naver.com/oauth2.0/authorize?response_type=code&state=NAVER_LOGIN_STRING&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fuser%2Fnaver%2Fcallback&client_id=Qd5paRgcxlgMxClKlirF&oauth_os=&inapp_view=&locale=ko_KR

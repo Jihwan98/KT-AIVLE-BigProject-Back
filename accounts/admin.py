@@ -6,7 +6,7 @@ from django.utils.safestring import mark_safe
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['email', 'is_vet', 'avatar']
+    list_display = ['email', 'is_vet', 'avatar','avatar_url']
     list_display_links= ['email', 'avatar']
     
     def avatar(self, user):

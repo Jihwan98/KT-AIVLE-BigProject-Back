@@ -26,7 +26,7 @@ from rest_framework.generics import RetrieveUpdateAPIView
 
 main_domain = settings.MAIN_DOMAIN
 
-class UserDetails(RetrieveUpdateAPIView):
+class UserDetail(RetrieveUpdateAPIView):
     """
     Reads and updates UserModel fields
     Accepts GET, PUT, PATCH methods.

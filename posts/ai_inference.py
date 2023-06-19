@@ -7,6 +7,6 @@ labels = ['A1 구진 플라크', 'A2 비듬 각질 상피성잔고리', 'A3 태�
 
 def ai_model_inference(data_io, input_shape=(299, 299)):
     model = tf.keras.models.load_model('posts/ai_models/first_model.h5')
-    img = np.array(Image.open(data_io).resize(input_shape))[np.newaxis, :]
+    img = np.array(Image.open(data_io).resize(input_shape))[np.newaxis, :, :, :3]
     y_index = np.argmax(model.predict(img)[0])
     return labels[y_index]

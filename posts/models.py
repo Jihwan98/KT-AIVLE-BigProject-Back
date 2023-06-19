@@ -23,9 +23,10 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
     
-    
     class Meta:
         db_table = 'question'
+    def __str__(self) -> str:
+        return self.title
 
 class Answer(models.Model):
     id = models.AutoField(primary_key=True)

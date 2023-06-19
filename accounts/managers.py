@@ -5,6 +5,7 @@ class UserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError(_('Users must have an email address'))
+        # email을 정규화 -> @ 뒤의 값 대소문자 구분 x
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)

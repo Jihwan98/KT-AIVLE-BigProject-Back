@@ -16,6 +16,9 @@ from os.path import abspath, dirname, join
 from datetime import timedelta
 
 from settings_params import *
+# setting_params에 정보를 올려놨더니, 해당 내용은 commit이 안됨
+from secret import *
+
 from datetime import timedelta
 
 import sys
@@ -26,7 +29,7 @@ import sys
 BASE_DIR = dirname(dirname(dirname(abspath(__file__))))
 
 
-for key, value in SOCIAL_LOGIN.items():
+for key, value in SOCIAL_INFO.items():
     setattr(sys.modules[__name__], key, value)
 
 
@@ -60,6 +63,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+    'django_pydenticon', # pip install django-pydenticon
     
     'allauth',
     'allauth.account',
@@ -184,6 +188,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # default AUTH_USER 
 AUTH_USER_MODEL = 'accounts.User'
 
+# Custom Adapter
+ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
+
+
 # dj-rest-auth
 REST_AUTH = {
     'USER_DETAILS_SERIALIZER': 'dj_rest_auth.serializers.UserDetailsSerializer',
@@ -191,6 +199,8 @@ REST_AUTH = {
     'JWT_AUTH_COOKIE': 'my-app-auth',
     'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-token',
     'JWT_AUTH_HTTPONLY' : False,
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer', # Custom Serializer 
+    'USER_DETAILS_SERIALIZER' : 'accounts.serializers.CustomUserDetailsSerializer', # Custom Serializer
 }
 
 SITE_ID = 1
@@ -280,3 +290,20 @@ else:
     # MEDIA
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+# password reset 시 이메일 전송 관련 설정
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'               # 메일을 호스트하는 서버
+EMAIL_PORT = '587'                          # gmail과의 통신하는 포트
+EMAIL_HOST_USER = EMAIL_HOST_USER           # 발신할 이메일
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD   # 발신할 메일의 비밀번호
+EMAIL_USE_TLS = True                        # TLS 보안 방법
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER        # 사이트와 관련한 자동응답을 받을 이메일 주소
+
+
+# pydenticon 관련 settings 내 Callable 참조가 3.9까지만 지원됨
+# 몽키패칭으로 Callable 속성 복사
+import collections
+if not hasattr(collections, 'Callable'):
+    collections.Callable = collections.abc.Callable

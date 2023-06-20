@@ -11,6 +11,7 @@ class PictureSerializer(ModelSerializer):
     class Meta:
         model = Picture
         fields = '__all__'
+        read_only_fields = ['id', 'userid', 'created_at', 'model_result']
     # 생성시에는 user에 접근하여 userid에 값을 넣도록
     def create(self, validated_data):
         validated_data["userid"] = self.context['request'].user

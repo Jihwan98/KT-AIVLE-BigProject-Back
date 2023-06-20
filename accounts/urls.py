@@ -18,7 +18,7 @@ urlpatterns = [
     path('registration/', include('dj_rest_auth.registration.urls')),
     path('user/delete/', DeleteAccount.as_view()), # 유저 삭제
     path('email/check/', EmailCheckAPIView.as_view()), # 이메일 중복 체크
-    path('userdetail/', UserDetail.as_view(), name='userdetail'), # pydenticon 적용한 User detail api
+    # path('userdetail/', UserDetail.as_view(), name='userdetail'), # pydenticon 적용한 User detail api
 
     # 비밀번호 reset
     path('password/reset/', PasswordResetView.as_view(), name='password-reset'),

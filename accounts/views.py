@@ -26,16 +26,6 @@ from rest_framework.generics import RetrieveUpdateAPIView
 
 main_domain = settings.MAIN_DOMAIN
 
-# class UserDetail(RetrieveUpdateAPIView):
-#     serializer_class = UserdetailSerializer
-#     permission_classes = (IsAuthenticated,)
-
-#     def get_object(self):
-#         return self.request.user
-
-#     def get_queryset(self):
-#         return get_user_model().objects.none()
-
 class DeleteAccount(APIView):
     permission_classes = [IsAuthenticated]
 

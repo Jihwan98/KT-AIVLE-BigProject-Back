@@ -24,12 +24,6 @@ class CustomRegisterSerializer(RegisterSerializer):
 
         return data
 
-# 사용자 정보 추출
-# class CustomUserDetailsSerializer(UserDetailsSerializer):
-#     class Meta:
-#         model = User
-#         fields = ('id', 'email', 'first_name', 'is_vet', 'profile_img')
-
 class  HospitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hospital
@@ -55,26 +49,6 @@ class PetSerializer(serializers.ModelSerializer):
         pet = Pet.objects.create(**validated_data)
         pet.save()
         return pet
-    
-# class UserdetailSerializer(serializers.ModelSerializer):
-    
-#     avatar = serializers.SerializerMethodField()
-#     profile_img  = serializers.SerializerMethodField()
-#     # profile_img = serializers.URLField()
-    
-#     class Meta:
-#         model = User
-#         fields = "__all__"
-#         fields = ['id' ,'email', 'first_name', 'is_vet', 'profile_img', 'avatar']
-#         read_only_fields = ['id' ,'email', 'first_name', 'is_vet', 'profile_img', 'avatar']
-    
-#     def get_avatar(self, instance):
-#         return instance.avatar
-    
-#     def get_profile_img(self, user):
-#         request = self.context.get('request')
-#         profile_img = user.avatar
-#         return request.build_absolute_uri(profile_img)
     
 class CustomUserDetailsSerializer(UserDetailsSerializer):
     avatar = serializers.SerializerMethodField()

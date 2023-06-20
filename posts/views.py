@@ -2,6 +2,8 @@ from rest_framework import status, generics
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from .permissions import IsOwnerOrReadOnly
 from .models import *
 from accounts.models import *
 from .serializers import *
@@ -37,14 +39,15 @@ class PictureViewSet(ModelViewSet):
 class QuestionViewSet(ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+# 유저 Question 이력 조회
+# posts/api/question-list-my/
+class QuestionList(generics.ListCreateAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         queryset = self.queryset
         queryset = queryset.filter(userid=self.request.user)
         return queryset
-
-# 모든 Question 조회
-# posts/api/question-list-all/
-class QuestionList(generics.ListCreateAPIView):
-    queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
-    permission_classes = [AllowAny]

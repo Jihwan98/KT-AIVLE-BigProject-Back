@@ -54,7 +54,6 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
     avatar = serializers.SerializerMethodField()
     profile_img  = serializers.SerializerMethodField()
 
-    
     class Meta:
         model = User
         fields = ['id' ,'email', 'first_name', 'is_vet', 'profile_img', 'avatar']

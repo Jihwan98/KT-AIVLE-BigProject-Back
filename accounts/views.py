@@ -505,15 +505,6 @@ class GoogleCallbackAPIView(APIView):
 class GoogleToDjangoLoginView(SocialLoginView):
     adapter_class = google_views.GoogleOAuth2Adapter
     client_class = OAuth2Client 
-    
-# class CustomUserDetailsView(RetrieveUpdateAPIView):
-#     # serializer_class = CustomUserDetailsSerializer
-#     serializer_class = UserDetailsSerializer
-    
-#     def get(self, request, *args, **kwargs):
-#         self.serializer_class = DetailsRetrieveSerializer
-#         return super().get(request, *args, **kwargs)
-
 
     
     

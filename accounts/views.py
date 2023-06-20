@@ -178,9 +178,9 @@ class NaverCallbackAPIView(APIView):
                 # token 발급
                 return Response(accept.json(), status=status.HTTP_200_OK)
                 
-        except:
+        except Exception as e:
             return JsonResponse({
-                "error": "error",
+                "error": e,
             }, status=status.HTTP_404_NOT_FOUND)
             
    
@@ -308,7 +308,7 @@ class GoogleLoginAPIView(APIView):
     def get(self, request):
         GOOGLE_CLIENT_ID = settings.GOOGLE_CLIENT_ID
 
-        local_callback_uri = f"{main_domain}accounts/google/callback"
+        local_callback_uri = f"{main_domain}/accounts/google/callback"
 
         google_auth_api = "https://accounts.google.com/o/oauth2/v2/auth"
         scope = (
@@ -334,7 +334,7 @@ class GoogleCallbackAPIView(APIView):
         GOOGLE_CLIENT_ID = '375584534650-k59r41tkahfjikkq2r3qod42bis6851d.apps.googleusercontent.com'
         GOOGLE_SECRET = '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'
 
-        local_callback_uri = f"{main_domain}accounts/google/callback"
+        local_callback_uri = f"{main_domain}/accounts/google/callback"
 
         state = "random_string"
 

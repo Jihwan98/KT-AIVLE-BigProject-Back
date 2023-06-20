@@ -16,7 +16,7 @@ from django.http import JsonResponse
 from json import JSONDecodeError
 from rest_framework.viewsets import ModelViewSet
 from .models import *
-from .serializers import HospitalSerializer, PetSerializer, UserdetailSerializer
+from .serializers import HospitalSerializer, PetSerializer
 from django.core import serializers
 from rest_framework import viewsets
 from allauth.socialaccount.models import SocialAccount
@@ -25,30 +25,6 @@ from rest_framework.generics import RetrieveUpdateAPIView
 
 
 main_domain = settings.MAIN_DOMAIN
-
-class UserDetail(RetrieveUpdateAPIView):
-    """
-    Reads and updates UserModel fields
-    Accepts GET, PUT, PATCH methods.
-
-    Default accepted fields: username, first_name, last_name
-    Default display fields: pk, username, email, first_name, last_name
-    Read-only fields: pk, email
-
-    Returns UserModel fields.
-    """
-    serializer_class = UserdetailSerializer
-    permission_classes = (IsAuthenticated,)
-
-    def get_object(self):
-        return self.request.user
-
-    def get_queryset(self):
-        """
-        Adding this method since it is sometimes called when using
-        django-rest-swagger
-        """
-        return get_user_model().objects.none()
 
 class DeleteAccount(APIView):
     permission_classes = [IsAuthenticated]

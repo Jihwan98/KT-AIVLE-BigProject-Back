@@ -21,12 +21,18 @@ class PictureSerializer(ModelSerializer):
 class QuestionSerializer(ModelSerializer):
     answer_set = AnswerSerializer(many=True, read_only=True)
     answer_count = serializers.IntegerField(source='answer_set.count', read_only=True)
+    user_name = serializers.SerializerMethodField('get_user_name')
     class Meta:
         model = Question
         fields = '__all__'
+
     # 생성시에는 user에 접근하여 userid에 값을 넣도록
     def create(self, validated_data):
         validated_data["userid"] = self.context['request'].user
         question = Question.objects.create(**validated_data)
         question.save()
         return question
+
+    def get_user_name(self, obj):
+        user = obj.userid
+        return user.first_name

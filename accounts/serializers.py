@@ -51,18 +51,16 @@ class PetSerializer(serializers.ModelSerializer):
         return pet
     
 class CustomUserDetailsSerializer(UserDetailsSerializer):
+    
     avatar = serializers.SerializerMethodField()
-    profile_img  = serializers.SerializerMethodField()
+    # profile_img  = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = ['id' ,'email', 'first_name', 'is_vet', 'profile_img', 'avatar']
-        read_only_fields = ['id' ,'email', 'first_name', 'is_vet', 'profile_img', 'avatar']
+        read_only_fields = ['id' ,'email', 'avatar']
     
     def get_avatar(self, instance):
-        return instance.avatar
-    
-    def get_profile_img(self, user):
-        request = self.context.get('request')
-        profile_img = user.avatar
-        return request.build_absolute_uri(profile_img)
+        request = self.context.get('request')     
+        avatar_url=instance.avatar   
+        return request.build_absolute_uri(avatar_url)

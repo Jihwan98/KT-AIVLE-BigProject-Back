@@ -12,6 +12,7 @@ from allauth.socialaccount.providers.kakao import views as kakao_views
 from allauth.socialaccount.providers.google import views as google_views
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
+from dj_rest_auth.views import UserDetailsView
 from django.http import JsonResponse
 from json import JSONDecodeError
 from rest_framework.viewsets import ModelViewSet
@@ -504,4 +505,15 @@ class GoogleCallbackAPIView(APIView):
 class GoogleToDjangoLoginView(SocialLoginView):
     adapter_class = google_views.GoogleOAuth2Adapter
     client_class = OAuth2Client 
+    
+# class CustomUserDetailsView(RetrieveUpdateAPIView):
+#     # serializer_class = CustomUserDetailsSerializer
+#     serializer_class = UserDetailsSerializer
+    
+#     def get(self, request, *args, **kwargs):
+#         self.serializer_class = DetailsRetrieveSerializer
+#         return super().get(request, *args, **kwargs)
 
+
+    
+    

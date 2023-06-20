@@ -6,14 +6,11 @@ from django.utils.safestring import mark_safe
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['email', 'is_vet', 'avatar','avatar_url']
-    list_display_links= ['email', 'avatar']
+    list_display = ['email', 'is_vet', 'avatar', 'preview_profile']
+    list_display_links= ['email', 'avatar', 'preview_profile']
     
-    def avatar(self, user):
+    def preview_profile(self, user):
         return mark_safe(f"<img src={user.avatar} style='width: 100px;' />")
-    
-    def avatar_url(self, user):
-        return user.avatar
 
 @admin.register(Hospital)
 class HospitalAdmin(admin.ModelAdmin):

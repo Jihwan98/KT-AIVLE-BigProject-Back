@@ -20,3 +20,11 @@ class AnswerAdmin(admin.ModelAdmin):
     list_display = ['userid', 'title']
     list_display_links= ['userid', 'title']
     
+@admin.register(Picture)
+class PictureAdmin(admin.ModelAdmin):
+    pass
+    # list_display = ['preview_photo', 'model_result','created_at']
+    # list_display_links= ['preview_photo', 'model_result', 'created_at']
+
+    # def preview_photo(self, picture):
+    #     return mark_safe(f"<img src={picture.photo.url} style='width: 100px;' />")

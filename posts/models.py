@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class Picture(models.Model):
     id = models.AutoField(primary_key=True)
-    userid = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='UserID', editable=False)  # Field name made lowercase.
+    userid = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='UserID', blank=False)  # Field name made lowercase.
     photo = models.ImageField(upload_to="picture/post/", null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     model_result= models.CharField(max_length=255, blank=True, null=True) # 모델링 결과
@@ -17,7 +17,7 @@ class Picture(models.Model):
         
 class Question(models.Model):
     id = models.AutoField(primary_key=True)
-    userid = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='UserID', editable=False)  # Field name made lowercase.
+    userid = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='UserID', blank=False)  # Field name made lowercase.
     pictureid = models.ForeignKey('Picture', on_delete=models.CASCADE, db_column='PictureID', blank=False, null=False)
 
     title = models.CharField(db_column='Title', max_length=32, blank=True, null=True)  # Field name made lowercase.

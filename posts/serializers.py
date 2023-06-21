@@ -2,11 +2,6 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from .models import *
 
-class AnswerSerializer(ModelSerializer):
-    class Meta:
-        model = Answer
-        fields = ['id']
-
 class PictureSerializer(ModelSerializer):
     class Meta:
         model = Picture
@@ -26,6 +21,7 @@ class QuestionSerializer(ModelSerializer):
     class Meta:
         model = Question
         fields = '__all__'
+        read_only_fields = ['id', 'userid', 'created_at', 'model_result', 'pictureid', 'updated_at']
 
     # 생성시에는 user에 접근하여 userid에 값을 넣도록
     def create(self, validated_data):
@@ -37,3 +33,9 @@ class QuestionSerializer(ModelSerializer):
     def get_user_name(self, obj):
         user = obj.userid
         return user.first_name
+    
+    class AnswerSerializer(ModelSerializer):
+        class Meta:
+            model = Answer
+            fields = '__all__'
+        

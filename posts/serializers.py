@@ -1,11 +1,20 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from .models import *
+from django.contrib.auth import get_user_model
+from accounts.models import User
 
-class AnswerSerializer(ModelSerializer):
+# Posts 앱에서 user에 접근할 때 사용
+# class UsersimpleSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ['id']
+
+class AnswerCountSerializer(ModelSerializer):
     class Meta:
         model = Answer
         fields = ['id']
+        read_only_fields = ['id']
 
 class PictureSerializer(ModelSerializer):
     class Meta:
@@ -20,7 +29,7 @@ class PictureSerializer(ModelSerializer):
         return pic
     
 class QuestionSerializer(ModelSerializer):
-    answer_set = AnswerSerializer(many=True, read_only=True)
+    answer_set = AnswerCountSerializer(many=True, read_only=True)
     answer_count = serializers.IntegerField(source='answer_set.count', read_only=True)
     user_name = serializers.SerializerMethodField('get_user_name')
     class Meta:
@@ -39,4 +48,10 @@ class QuestionSerializer(ModelSerializer):
         user = obj.userid
         return user.first_name
 
-        
+class AnswerSerializer(ModelSerializer):
+    # userid = UsersimpleSerializer(read_only=True)
+    
+    class Meta:
+        model = Answer
+        fields = ['id', 'userid', 'title', 'contents', 'questionid']
+        read_only_fields = ['id', 'userid', 'questionid']

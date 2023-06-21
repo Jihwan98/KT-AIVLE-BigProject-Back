@@ -2,7 +2,7 @@ from rest_framework import status, generics
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.pagination import CursorPagination
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from .permissions import IsOwnerOrReadOnly
 from .models import *
@@ -37,7 +37,7 @@ class PictureViewSet(ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     
 # question pagination 추가
-class QuestionPagination(CursorPagination):
+class QuestionPagination(PageNumberPagination):
     page_size = 10
     ordering = '-created_at'
 # posts/api/Question

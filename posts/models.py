@@ -27,6 +27,7 @@ class Question(models.Model):
     
     class Meta:
         db_table = 'question'
+        ordering = ['-created_at']
     def __str__(self) -> str:
         return self.title
 

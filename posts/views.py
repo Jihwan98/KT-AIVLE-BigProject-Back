@@ -46,7 +46,6 @@ class PictureList(generics.ListCreateAPIView):
 # question pagination 추가
 class QuestionPagination(PageNumberPagination):
     page_size = 10
-    ordering = '-created_at'
 # posts/api/Question
 class QuestionViewSet(ModelViewSet):
     queryset = Question.objects.all()

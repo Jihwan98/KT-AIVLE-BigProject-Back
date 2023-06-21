@@ -24,7 +24,7 @@ class CustomRegisterSerializer(RegisterSerializer):
 
         return data
 
-class  HospitalSerializer(serializers.ModelSerializer):
+class HospitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hospital
         fields = "__all__"

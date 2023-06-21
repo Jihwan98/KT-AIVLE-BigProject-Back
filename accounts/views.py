@@ -22,7 +22,7 @@ from django.core import serializers
 from rest_framework import viewsets
 from allauth.socialaccount.models import SocialAccount
 from rest_framework.generics import RetrieveUpdateAPIView
-
+from .permissions import *
 
 
 main_domain = settings.MAIN_DOMAIN
@@ -50,6 +50,7 @@ class EmailCheckAPIView(APIView):
 class HospitalViewSet(ModelViewSet):
     queryset = Hospital.objects.all()
     serializer_class = HospitalSerializer
+    permission_classes = [IsAuthenticated, IsVetAuthenticated, IsOwner]
     def get_queryset(self):
         queryset = self.queryset
         queryset = queryset.filter(user_id=self.request.user)

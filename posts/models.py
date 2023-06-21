@@ -8,7 +8,7 @@ class Picture(models.Model):
     photo = models.ImageField(upload_to="picture/post/", null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     model_result= models.CharField(max_length=255, blank=True, null=True) # 모델링 결과
-    pet_id= models.ForeignKey('accounts.Pet', on_delete=models.CASCADE, db_column='PetID', blank=False, null=False)
+    pet_id= models.ForeignKey('accounts.Pet', on_delete=models.CASCADE, db_column='PetID', blank=True)
     
     class Meta:
         db_table = 'picture'

@@ -17,10 +17,12 @@ from rest_framework.generics import get_object_or_404
 class PictureViewSet(ModelViewSet):
     queryset = Picture.objects.all()
     serializer_class = PictureSerializer
+    
     def get_queryset(self):
         queryset = self.queryset
         queryset = queryset.filter(userid=self.request.user)
         return queryset
+    
     def create(self, request):
         # 등록하려는 pet_id 가 user의 pet인지 확인
         pet_id = request.data.get('pet_id')
@@ -41,6 +43,7 @@ class PictureViewSet(ModelViewSet):
 class QuestionPagination(PageNumberPagination):
     page_size = 10
     ordering = '-created_at'
+    
 # posts/api/Question
 class QuestionViewSet(ModelViewSet):
     queryset = Question.objects.all()
@@ -112,3 +115,5 @@ class AnswerViewSet(ModelViewSet):
         question = Question.objects.get(id=self.kwargs["questionid"])
         serializer.save(userid=self.request.user, questionid=question)
         return super().perform_create(serializer)
+    
+    

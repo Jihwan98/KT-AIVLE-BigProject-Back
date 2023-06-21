@@ -2,6 +2,11 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from .models import *
 
+class AnswerSerializer(ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = ['id']
+
 class PictureSerializer(ModelSerializer):
     class Meta:
         model = Picture
@@ -33,9 +38,5 @@ class QuestionSerializer(ModelSerializer):
     def get_user_name(self, obj):
         user = obj.userid
         return user.first_name
-    
-    class AnswerSerializer(ModelSerializer):
-        class Meta:
-            model = Answer
-            fields = '__all__'
+
         

@@ -9,6 +9,7 @@ from .models import *
 from accounts.models import *
 from .serializers import *
 from .ai_inference import ai_model_inference
+from rest_framework.generics import get_object_or_404
 # from rest_framework.generics import ListAPIView
 # Create your views here.
 
@@ -102,7 +103,18 @@ class QuestionList(generics.ListCreateAPIView):
 #         headers = self.get_success_headers(serializer.data)
 #         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-class AnserViewSet(ModelViewSet):
+class AnswerViewSet(ModelViewSet):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    
+    def get_queryset(self):
+        # url로 받은 인자는 self.kwargs['키워드'] 를 통해 접근 가능
+        queryset = super().get_queryset()
+        queryset = queryset.filter(questionid=self.kwargs["questionid"])
+        return queryset
+    
+    def perform_create(self, serializer):
+        question = Question.objects.get(id=self.kwargs["questionid"])
+        serializer.save(userid=self.request.user, questionid=question)
+        return super().perform_create(serializer)

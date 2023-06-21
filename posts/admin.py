@@ -5,14 +5,14 @@ from django.utils.safestring import mark_safe
 # Register your models here.
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ['id', 'photo_tag', 'title']
-    list_display_links= ['id', 'photo_tag', 'title']
+    list_display = ['id',  'title', 'pictureid']
+    list_display_links= ['id', 'title', 'pictureid']
     
-    def photo_tag(self, question):
-        return mark_safe(f"<img src={question.photo.url} style='width: 100px;' />")
+    # def photo_tag(self, question):
+    #     return mark_safe(f"<img src={question.photo.url} style='width: 100px;' />")
     
-    def photo_url(self, question):
-        return question.photo.url
+    # def photo_url(self, question):
+    #     return question.photo.url
     
 
 @admin.register(Answer)

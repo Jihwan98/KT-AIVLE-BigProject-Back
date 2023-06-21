@@ -2,6 +2,7 @@ from rest_framework import status, generics
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.pagination import CursorPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from .permissions import IsOwnerOrReadOnly
 from .models import *
@@ -35,11 +36,16 @@ class PictureViewSet(ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     
-# posts/api/Question     
+# question pagination 추가
+class QuestionPagination(CursorPagination):
+    page_size = 10
+    ordering = '-created_at'
+# posts/api/Question
 class QuestionViewSet(ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    pagination_class = QuestionPagination
 
     def create(self, request):
         # 등록하려는 picture 가 user의 picture인지 확인

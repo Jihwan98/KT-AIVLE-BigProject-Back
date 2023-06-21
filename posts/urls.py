@@ -12,4 +12,5 @@ router.register('answer', views.AnserViewSet)
 urlpatterns = [
     path('api/', include(router.urls)),
     path('api/question-list-my/', views.QuestionList.as_view()),
+    path('api/picture-list-my/', views.PictureList.as_view()),
 ]

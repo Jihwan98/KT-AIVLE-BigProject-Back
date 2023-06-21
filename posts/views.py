@@ -16,10 +16,7 @@ from .ai_inference import ai_model_inference
 class PictureViewSet(ModelViewSet):
     queryset = Picture.objects.all()
     serializer_class = PictureSerializer
-    def get_queryset(self):
-        queryset = self.queryset
-        queryset = queryset.filter(userid=self.request.user)
-        return queryset
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     def create(self, request):
         # 등록하려는 pet_id 가 user의 pet인지 확인
         pet_id = request.data.get('pet_id')
@@ -35,7 +32,17 @@ class PictureViewSet(ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-    
+# 유저 Picture 이력 조회
+# posts/api/picture-list-my/
+class PictureList(generics.ListCreateAPIView):
+    queryset = Picture.objects.all()
+    serializer_class = PictureSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        queryset = self.queryset
+        queryset = queryset.filter(userid=self.request.user)
+        return queryset
+
 # question pagination 추가
 class QuestionPagination(PageNumberPagination):
     page_size = 10

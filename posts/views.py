@@ -19,11 +19,6 @@ class PictureViewSet(ModelViewSet):
     serializer_class = PictureSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     
-    def get_queryset(self):
-        queryset = self.queryset
-        queryset = queryset.filter(userid=self.request.user)
-        return queryset
-    
     def create(self, request):
         # 등록하려는 pet_id 가 user의 pet인지 확인
         pet_id = request.data.get('pet_id')

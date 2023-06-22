@@ -2,7 +2,6 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from .models import *
 from accounts.models import Hospital
-# from .models import Hospital
 from django.contrib.auth import get_user_model
 from accounts.models import User
 
@@ -22,11 +21,11 @@ class PictureSerializer(ModelSerializer):
     class Meta:
         model = Picture
         fields = '__all__'
-        read_only_fields = ['id', 'userid', 'created_at', 'model_result'] # 생성시에는 user에 접근하여 userid에 값을 넣도록
+        read_only_fields = ['id', 'userid', 'created_at', 'model_result'] 
     
     
     def create(self, validated_data):
-        validated_data["userid"] = self.context['request'].user
+        validated_data["userid"] = self.context['request'].user # 생성시에는 user에 접근하여 userid에 값을 넣도록
         pic = Picture.objects.create(**validated_data)
         pic.save()
         return pic

@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from .models import *
+from accounts.models import Hospital
+# from .models import Hospital
 from django.contrib.auth import get_user_model
 from accounts.models import User
 
@@ -49,9 +51,16 @@ class QuestionSerializer(ModelSerializer):
     def get_user_name(self, obj):
         user = obj.userid
         return user.first_name
+    
+class HospitalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hospital
+        fields = "__all__"
 
 class AnswerSerializer(ModelSerializer):
+    hospital = HospitalSerializer(source='userid.hospital', read_only=True)
+    
     class Meta:
         model = Answer
-        fields = ['id', 'userid', 'title', 'contents', 'questionid']
-        read_only_fields = ['id', 'userid', 'questionid']
+        fields = ['id', 'userid', 'title', 'contents', 'questionid', 'hospital']
+        read_only_fields = ['id', 'userid', 'questionid', 'hospital']

@@ -1,9 +1,8 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from .models import *
-from accounts.models import Hospital
+from accounts.models import Hospital, User
 from django.contrib.auth import get_user_model
-from accounts.models import User
 
 # Posts 앱에서 user에 접근할 때 사용
 # class UsersimpleSerializer(serializers.ModelSerializer):
@@ -48,11 +47,26 @@ class HospitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hospital
         fields = "__all__"
+        
+class HosInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hospital
+        fields = ['hos_name', 'address', 'officenumber', 'introduction', 'hos_profile_img']
 
 class AnswerSerializer(ModelSerializer):
-    hospital = HospitalSerializer(source='userid.hospital', read_only=True)
+    user_name = serializers.SerializerMethodField('get_user_name')
+    user_email =  serializers.SerializerMethodField('get_user_email')
+    hos_info = HosInfoSerializer(source='userid.hospital', read_only=True)
     
     class Meta:
         model = Answer
-        fields = ['id', 'userid', 'title', 'contents', 'questionid', 'hospital']
-        read_only_fields = ['id', 'userid', 'questionid', 'hospital']
+        fields = ['id', 'user_name', 'user_email', 'userid', 'contents', 'questionid', 'created_at', 'hos_info']
+        read_only_fields = ['id', 'userid', 'user_email','questionid', 'hos_info', 'created_at', 'user_name']
+        
+    def get_user_name(self, obj):
+        user = obj.userid
+        return user.first_name
+    
+    def get_user_email(self, obj):
+        user = obj.userid
+        return user.email

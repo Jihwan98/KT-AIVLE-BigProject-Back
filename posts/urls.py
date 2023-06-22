@@ -7,8 +7,7 @@ app_name="posts"
 router = DefaultRouter()
 router.register('picture', views.PictureViewSet)
 router.register('question', views.QuestionViewSet)
-# router.register('answer', views.AnswerViewSet)
-router.register(r"question/(?P<questionid>\d+)/answer", views.AnswerViewSet)
+router.register(r"question/(?P<questionid>\d+)/answer", views.AnswerViewSet) # questionid 에 딸린 댓글 목록을 조회 및 생성
 
 urlpatterns = [
     path('api/', include(router.urls)),

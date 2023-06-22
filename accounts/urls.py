@@ -15,7 +15,7 @@ router.register('pet', PetViewSet)
 urlpatterns = [
     # 일반 회원 회원가입/로그인
     path('', include('dj_rest_auth.urls')),
-    path('registration/', include('dj_rest_auth.registration.urls')),
+    path('registration/', include('dj_rest_auth.registration.urls')), # 회원가입
     path('user/delete/', DeleteAccount.as_view()), # 유저 삭제
     path('email/check/', EmailCheckAPIView.as_view()), # 이메일 중복 체크
 

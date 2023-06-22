@@ -18,6 +18,12 @@ class PictureViewSet(ModelViewSet):
     queryset = Picture.objects.all()
     serializer_class = PictureSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    
+    def get_queryset(self):
+        queryset = self.queryset
+        queryset = queryset.filter(userid=self.request.user)
+        return queryset
+    
     def create(self, request):
         # 등록하려는 pet_id 가 user의 pet인지 확인
         pet_id = request.data.get('pet_id')
@@ -47,6 +53,7 @@ class PictureList(generics.ListCreateAPIView):
 # question pagination 추가
 class QuestionPagination(PageNumberPagination):
     page_size = 10
+
 # posts/api/Question
 class QuestionViewSet(ModelViewSet):
     queryset = Question.objects.all()
@@ -72,6 +79,7 @@ class QuestionList(generics.ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     permission_classes = [IsAuthenticated]
+    
     def get_queryset(self):
         queryset = self.queryset
         queryset = queryset.filter(userid=self.request.user)
@@ -103,18 +111,21 @@ class QuestionList(generics.ListCreateAPIView):
 #         headers = self.get_success_headers(serializer.data)
 #         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+# /posts/question/<int:question:id>/answer : Question 별 Answer 조회 및 생성
+# /posts/question/<int:question:id>/answer/<int:id> : Answer 수정 및 삭제
 class AnswerViewSet(ModelViewSet):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     
     def get_queryset(self):
-        # url로 받은 인자는 self.kwargs['키워드'] 를 통해 접근 가능
         queryset = super().get_queryset()
-        queryset = queryset.filter(questionid=self.kwargs["questionid"])
+        queryset = queryset.filter(questionid=self.kwargs["questionid"]) # url로 받은 인자는 self.kwargs['키워드'] 를 통해 접근 가능
         return queryset
     
     def perform_create(self, serializer):
         question = Question.objects.get(id=self.kwargs["questionid"])
         serializer.save(userid=self.request.user, questionid=question)
         return super().perform_create(serializer)
+    
+    

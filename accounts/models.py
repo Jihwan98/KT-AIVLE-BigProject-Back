@@ -20,9 +20,8 @@ class User(AbstractUser):
     class Meta:
         db_table = 'user'
         
-    # 프로필 이미지 없을시 pydenticon 표기
     @property
-    def avatar(self):
+    def avatar(self): # 프로필 이미지 없을시 pydenticon 표기
         if self.profile_img:
             return self.profile_img.url
         else:
@@ -41,7 +40,6 @@ class Hospital(models.Model):
         db_table = 'hospital'
         
 class Pet(models.Model):
-    
     class GenderChoices(models.TextChoices):
         MALE = "M", "수컷"
         FEMALE = "F", "암컷"    

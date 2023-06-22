@@ -23,6 +23,7 @@ from rest_framework import viewsets
 from allauth.socialaccount.models import SocialAccount
 from rest_framework.generics import RetrieveUpdateAPIView
 from .permissions import *
+import random
 
 
 main_domain = settings.MAIN_DOMAIN
@@ -46,7 +47,7 @@ class EmailCheckAPIView(APIView):
         else: # 생성가능
             return JsonResponse({"success": True, "message" : "Available emails"}, status=status.HTTP_200_OK)
 
-# accounts/api/hospital     
+# accounts/api/hospital/
 class HospitalViewSet(ModelViewSet):
     queryset = Hospital.objects.all()
     serializer_class = HospitalSerializer
@@ -56,7 +57,22 @@ class HospitalViewSet(ModelViewSet):
         queryset = queryset.filter(user_id=self.request.user)
         return queryset
 
-# accounts/api/pet 
+# accounts/api/hospital-ad/
+class HospitalAdAPIView(APIView):
+    permission_classes = (AllowAny,)
+    def get(self, request, *args, **kwargs):
+        if Hospital.objects.filter().exists(): # 병원 정보가 존재하면
+            max_id = Hospital.objects.all().aggregate(max_id=models.Max("id"))['max_id']
+            while True:
+                pk = random.randint(1, max_id)
+                hospital = Hospital.objects.filter(pk=pk).first()
+                if hospital:
+                    data = HospitalSerializer(hospital).data
+                    return Response({"hospital": data}, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse({"message": "등록된 병원 정보 0개 입니다."}, status=status.HTTP_400_BAD_REQUEST)
+
+# accounts/api/pet/
 class PetViewSet(ModelViewSet):
     queryset = Pet.objects.all()
     serializer_class = PetSerializer

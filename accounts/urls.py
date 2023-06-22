@@ -28,6 +28,7 @@ urlpatterns = [
     path('naver/callback', NaverCallbackAPIView.as_view()),
     path('naver/login/success', NaverToDjangoLoginView.as_view()),
     path('api/', include(router.urls)),
+    path('api/hospital-ad/', HospitalAdAPIView.as_view()),
     
     # Kakao Login
     # path('kakao/login', KakaoLoginAPIView.as_view()),

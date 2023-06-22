@@ -36,6 +36,8 @@ class Hospital(models.Model):
     introduction = models.CharField(max_length=255, blank=True, null=True) # 자기소개
     hos_profile_img = models.ImageField(upload_to='profile_hos/', default='profile_hos/default.png') # profile image
     
+    def __str__(self) -> str:
+        return self.hos_name
     class Meta:
         db_table = 'hospital'
         

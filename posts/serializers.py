@@ -11,12 +11,6 @@ from accounts.models import User
 #         model = User
 #         fields = ['id']
 
-class AnswerCountSerializer(ModelSerializer):
-    class Meta:
-        model = Answer
-        fields = ['id']
-        read_only_fields = ['id']
-
 class PictureSerializer(ModelSerializer):
     class Meta:
         model = Picture
@@ -31,7 +25,6 @@ class PictureSerializer(ModelSerializer):
         return pic
     
 class QuestionSerializer(ModelSerializer):
-    answer_set = AnswerCountSerializer(many=True, read_only=True)
     answer_count = serializers.IntegerField(source='answer_set.count', read_only=True)
     user_name = serializers.SerializerMethodField('get_user_name')
     

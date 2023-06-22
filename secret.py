@@ -2,7 +2,6 @@
 SOCIAL_INFO = {
     "SECRET_KEY":"django-insecure-u^dwaltg9ji$czy^1=z=d(6ue=(-b5pb316l$bhi5j*uxgu95b",
     "MAIN_DOMAIN":"http://127.0.0.1:8000",
-    # "MAIN_DOMAIN":"http://43.202.5.122",
     "NAVER_CLIENT_ID":"IRgfKb5GJoBUhJb2xHFm",
     "NAVER_CLIENT_SECRET":"KIjZ6wTLF3",
     # KAKAO_REST_KEY

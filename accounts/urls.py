@@ -23,12 +23,14 @@ urlpatterns = [
     path('password/reset/', PasswordResetView.as_view(), name='password-reset'),
     path('password/reset/confirm/<str:uidb64>/<str:token>', TemplateView.as_view(template_name="password_reset_confirm.html"), name='password_reset_confirm'),
 
-    # Naver Login
-    path('naver/login',NaverLoginAPIView.as_view()),
-    path('naver/callback', NaverCallbackAPIView.as_view()),
-    path('naver/login/success', NaverToDjangoLoginView.as_view()),
+    # hospital, pet
     path('api/', include(router.urls)),
     path('api/hospital-ad/', HospitalAdAPIView.as_view()),
+
+    # Naver Login
+    # path('naver/login',NaverLoginAPIView.as_view()),
+    # path('naver/callback', NaverCallbackAPIView.as_view()),
+    # path('naver/login/success', NaverToDjangoLoginView.as_view()),
     
     # Kakao Login
     # path('kakao/login', KakaoLoginAPIView.as_view()),
@@ -36,9 +38,9 @@ urlpatterns = [
     # path('kakao/login/success', KakaoToDjangoLoginView.as_view()),
     
     # Google Login
-    path('google/login', GoogleLoginAPIView.as_view()),
-    path('google/callback', GoogleCallbackAPIView.as_view()),
-    path('google/login/success', GoogleToDjangoLoginView.as_view()),
+    # path('google/login', GoogleLoginAPIView.as_view()),
+    # path('google/callback', GoogleCallbackAPIView.as_view()),
+    # path('google/login/success', GoogleToDjangoLoginView.as_view()),
 
     # pydenticon
     path('identicon/image/<path:data>/', pydenticon_image, name='pydenticon_image'),]

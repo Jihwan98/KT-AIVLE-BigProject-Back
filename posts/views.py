@@ -22,9 +22,9 @@ class PictureViewSet(ModelViewSet):
     def create(self, request):
         # 등록하려는 pet_id 가 user의 pet인지 확인
         pet_id = request.data.get('pet_id')
-        if request.user != Pet.objects.filter(id=pet_id).first().ownerid:
+        if pet_id and request.user != Pet.objects.filter(id=pet_id).first().ownerid:
             return Response({"message": "해당 유저에 등록되지 않은 반려동물입니다."}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 

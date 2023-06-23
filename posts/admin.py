@@ -17,8 +17,8 @@ class QuestionAdmin(admin.ModelAdmin):
 
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
-    list_display = ['userid', 'title']
-    list_display_links= ['userid', 'title']
+    list_display = ['userid']
+    list_display_links= ['userid']
     
 @admin.register(Picture)
 class PictureAdmin(admin.ModelAdmin):

@@ -29,11 +29,7 @@ class PictureViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         photo_io = serializer.validated_data['photo'].file
-        binary_result = binary_model_inference(photo_io)
-        if round(binary_result):
-            serializer.validated_data['model_result'] = class_model_inference(photo_io)
-        else:
-            serializer.validated_data['model_result'] = f"{binary_result * 100:0.2f}%의 확률로 정상으로 예상됩니다."
+        serializer.validated_data['model_result'] = class_model_inference(photo_io)
 
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)

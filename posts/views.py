@@ -20,23 +20,26 @@ class PictureViewSet(ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     
     def create(self, request):
-        # 등록하려는 pet_id 가 user의 pet인지 확인
-        pet_id = request.data.get('pet_id')
-        if pet_id and request.user != Pet.objects.filter(id=pet_id).first().ownerid:
-            return Response({"message": "해당 유저에 등록되지 않은 반려동물입니다."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            # 등록하려는 pet_id 가 user의 pet인지 확인
+            pet_id = request.data.get('pet_id')
+            if pet_id and request.user != Pet.objects.filter(id=pet_id).first().ownerid:
+                return Response({"message": "해당 유저에 등록되지 않은 반려동물입니다."}, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
 
-        photo_io = serializer.validated_data['photo'].file
-        # serializer.validated_data['model_result'] = ai_model_inference(photo_io)
-        disease, conf = class_model_inference(photo_io)
-        serializer.validated_data['model_result'] = disease
-        serializer.validated_data['model_conf'] = conf
+            photo_io = serializer.validated_data['photo'].file
+            # serializer.validated_data['model_result'] = ai_model_inference(photo_io)
+            disease, conf = class_model_inference(photo_io)
+            serializer.validated_data['model_result'] = disease
+            serializer.validated_data['model_conf'] = conf
 
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        except Exception as e:
+            return Response(f"error : {e}", status=status.HTTP_400_BAD_REQUEST)
 # 유저 Picture 이력 조회
 # posts/api/picture-list-my/
 class PictureList(generics.ListCreateAPIView):

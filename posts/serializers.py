@@ -30,7 +30,7 @@ class QuestionSerializer(ModelSerializer):
     class Meta:
         model = Question
         fields = ['answer_count', 'user_name','id', 'userid', 'pictureid' ,'title', 'contents', 'created_at', 'updated_at']
-        read_only_fields = ['id', 'userid', 'created_at', 'model_result', 'pictureid', 'updated_at']
+        read_only_fields = ['id', 'userid', 'created_at', 'model_result', 'updated_at']
 
     # 생성시에는 user에 접근하여 userid에 값을 넣도록
     def create(self, validated_data):

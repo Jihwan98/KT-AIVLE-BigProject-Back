@@ -7,7 +7,8 @@ class Picture(models.Model):
     userid = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='UserID', blank=False)  # Field name made lowercase.
     photo = models.ImageField(upload_to="picture/post/", null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    model_result= models.CharField(max_length=255, blank=True, null=True) # 모델링 결과
+    model_result= models.CharField(max_length=255, blank=True, null=True) # 모델 결과
+    model_conf = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True) # 모델 결과 confidence
     pet_id= models.ForeignKey('accounts.Pet', on_delete=models.CASCADE, db_column='PetID', blank=True, null=True)
     
     class Meta:

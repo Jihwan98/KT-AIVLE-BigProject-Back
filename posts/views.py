@@ -8,7 +8,7 @@ from .permissions import IsOwnerOrReadOnly
 from .models import *
 from accounts.models import *
 from .serializers import *
-from .ai_inference import ai_model_inference
+from .ai_inference import class_model_inference
 from rest_framework.generics import get_object_or_404
 # from rest_framework.generics import ListAPIView
 # Create your views here.
@@ -29,7 +29,10 @@ class PictureViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         photo_io = serializer.validated_data['photo'].file
-        serializer.validated_data['model_result'] = ai_model_inference(photo_io)
+        # serializer.validated_data['model_result'] = ai_model_inference(photo_io)
+        disease, conf = class_model_inference(photo_io)
+        serializer.validated_data['model_result'] = disease
+        serializer.validated_data['model_conf'] = conf
 
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)

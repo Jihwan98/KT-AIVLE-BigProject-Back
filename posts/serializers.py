@@ -13,8 +13,8 @@ from django.contrib.auth import get_user_model
 class PictureSerializer(ModelSerializer):
     class Meta:
         model = Picture
-        fields = ['id', 'userid', 'photo', 'created_at', 'model_result', 'pet_id'] 
-        read_only_fields = ['id', 'userid', 'created_at', 'model_result'] 
+        fields = ['id', 'userid', 'photo', 'created_at', 'model_result', 'model_conf', 'pet_id'] 
+        read_only_fields = ['id', 'userid', 'created_at', 'model_result', 'model_conf'] 
     
     
     def create(self, validated_data):

@@ -13,7 +13,7 @@ class Picture(models.Model):
     class Meta:
         db_table = 'picture'
     def __str__(self) -> str:
-        return f"userid : {self.userid}, pet_id : {self.pet_id}"
+        return f"{self.userid}'s {self.pet_id} : {self.model_result} [{self.created_at}]"
         
 class Question(models.Model):
     id = models.AutoField(primary_key=True)

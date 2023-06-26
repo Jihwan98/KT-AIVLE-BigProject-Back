@@ -9,6 +9,7 @@ from .models import *
 from accounts.models import *
 from .serializers import *
 from .ai_inference import class_model_inference
+from .gpt_disease import chatGPT
 from rest_framework.generics import get_object_or_404
 # from rest_framework.generics import ListAPIView
 # Create your views here.
@@ -34,6 +35,8 @@ class PictureViewSet(ModelViewSet):
             disease, conf = class_model_inference(photo_io)
             serializer.validated_data['model_result'] = disease
             serializer.validated_data['model_conf'] = conf
+
+            serializer.validated_data['gpt_explain'] = chatGPT(conf, disease)
 
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)

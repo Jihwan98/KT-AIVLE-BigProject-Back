@@ -27,8 +27,8 @@ class CustomRegisterSerializer(RegisterSerializer):
 class HospitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hospital
-        fields = "__all__"
-        read_only_fields = ['user_id']
+        fields = ['id', 'user_id', 'hos_name', 'address', 'officenumber', 'introduction', 'hos_profile_img'] 
+        read_only_fields = ['id' ,'user_id']
     
     # 생성시에는 user에 접근하여 ownerid에 값을 넣도록
     def create(self, validated_data):

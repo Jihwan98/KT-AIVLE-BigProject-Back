@@ -13,7 +13,7 @@ from django.contrib.auth import get_user_model
 class PictureSerializer(ModelSerializer):
     class Meta:
         model = Picture
-        fields = '__all__'
+        fields = ['id', 'userid', 'photo', 'created_at', 'model_result', 'pet_id'] 
         read_only_fields = ['id', 'userid', 'created_at', 'model_result'] 
     
     
@@ -29,7 +29,7 @@ class QuestionSerializer(ModelSerializer):
     
     class Meta:
         model = Question
-        fields = '__all__'
+        fields = ['answer_count', 'user_name','id', 'userid', 'pictureid' ,'title', 'contents', 'created_at', 'updated_at']
         read_only_fields = ['id', 'userid', 'created_at', 'model_result', 'pictureid', 'updated_at']
 
     # 생성시에는 user에 접근하여 userid에 값을 넣도록
@@ -46,7 +46,8 @@ class QuestionSerializer(ModelSerializer):
 class HospitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hospital
-        fields = "__all__"
+        fields = ['id', 'user_id', 'hos_name', 'address', 'officenumber', 'introduction', 'hos_profile_img']
+        read_only_fields = ['id', 'user_id']
         
 class HosInfoSerializer(serializers.ModelSerializer):
     class Meta:

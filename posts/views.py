@@ -9,9 +9,10 @@ from .models import *
 from accounts.models import *
 from .serializers import *
 from .ai_inference import class_model_inference
-from .gpt_disease import chatGPT
+from .gpt import chatGPT_disease, chatGPT_answer
 from rest_framework.generics import get_object_or_404
 from rest_framework.filters import SearchFilter
+import threading
 
 # Create your views here.
 
@@ -37,7 +38,7 @@ class PictureViewSet(ModelViewSet):
             serializer.validated_data['model_result'] = disease
             serializer.validated_data['model_conf'] = conf
 
-            # serializer.validated_data['gpt_explain'] = chatGPT(conf, disease) # GPT 질병 설명
+            # serializer.validated_data['gpt_explain'] = chatGPT_disease(conf, disease) # GPT 질병 설명
 
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
@@ -75,16 +76,62 @@ class QuestionViewSet(ModelViewSet):
         try:
             # 등록하려는 picture 가 user의 picture인지 확인
             pictureid = request.data.get('pictureid')
-            if request.user != Picture.objects.filter(id=pictureid).first().userid:
+            pic = Picture.objects.filter(id=pictureid).first()
+            if request.user != pic.userid:
                 return Response({"message": "해당 유저에 등록되지 않은 사진입니다."}, status=status.HTTP_400_BAD_REQUEST)
-            
+
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
+            
+            gpt_args = {
+                "disease" : pic.model_result,
+                "confidence" : float(pic.model_conf),
+                "title" : serializer.data['title'],
+                "contents" : serializer.data['contents']
+            }
+            # GPT 쓰레드를 시작
+            t = threading.Thread(
+                target=self.gpt_thread, 
+                args=(gpt_args, serializer.data['id'])
+            )
+            # t.daemon = True
+            t.start()
+            
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         except Exception as e:
             return Response(f"error : {e}", status=status.HTTP_400_BAD_REQUEST)
+    def gpt_thread(self, gpt_args, questionid):
+        """_summary_
+
+        Args:
+            gpt_args (dict) :
+                disease (str): 모델이 사진을 보고 예측한 병명
+                confidence (float): 모델이 해당 병명을 예측한 확률
+                title (str): 질문 제목
+                contents (str): 질문 내용
+            questionid (int) : questionid(pk)
+        Returns:
+            _type_: _description_
+        """
+        print("------------GPT THREAD START------------")
+        # chatGPT 답변
+        gpt_answer = chatGPT_answer(
+            gpt_args['disease'], 
+            gpt_args['confidence'], 
+            gpt_args['title'], 
+            gpt_args['contents']
+        )
+        print("gpt_answer :", gpt_answer)
+        # answer 등록
+        ans = Answer(userid=User.objects.get(id=26), # id 값은 User에서 GPT 계정으로 해야함
+                     questionid=Question.objects.get(id=questionid), 
+                     contents=gpt_answer)
+        ans.save()
+        
+        print("------------GPT THREAD FINISH-----------")
+        
 
 # 유저 Question 이력 조회
 # posts/api/question-list-my/

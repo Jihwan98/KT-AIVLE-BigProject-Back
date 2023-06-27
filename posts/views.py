@@ -72,16 +72,19 @@ class QuestionViewSet(ModelViewSet):
     search_fields = ('title', 'contents', ) # 어떤 컬럼을 기반으로 검색할 건지 튜플 형식으로 작성
 
     def create(self, request):
-        # 등록하려는 picture 가 user의 picture인지 확인
-        pictureid = request.data.get('pictureid')
-        if request.user != Picture.objects.filter(id=pictureid).first().userid:
-            return Response({"message": "해당 유저에 등록되지 않은 사진입니다."}, status=status.HTTP_400_BAD_REQUEST)
-        
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        try:
+            # 등록하려는 picture 가 user의 picture인지 확인
+            pictureid = request.data.get('pictureid')
+            if request.user != Picture.objects.filter(id=pictureid).first().userid:
+                return Response({"message": "해당 유저에 등록되지 않은 사진입니다."}, status=status.HTTP_400_BAD_REQUEST)
+            
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        except Exception as e:
+            return Response(f"error : {e}", status=status.HTTP_400_BAD_REQUEST)
 
 # 유저 Question 이력 조회
 # posts/api/question-list-my/

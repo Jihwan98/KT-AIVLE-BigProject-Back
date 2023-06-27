@@ -36,7 +36,7 @@ class PictureViewSet(ModelViewSet):
             serializer.validated_data['model_result'] = disease
             serializer.validated_data['model_conf'] = conf
 
-            serializer.validated_data['gpt_explain'] = chatGPT(conf, disease)
+            # serializer.validated_data['gpt_explain'] = chatGPT(conf, disease) # GPT 질병 설명
 
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)

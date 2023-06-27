@@ -65,14 +65,11 @@ class HospitalAdAPIView(APIView):
     permission_classes = (AllowAny,)
     def get(self, request, *args, **kwargs):
         try:
-            if Hospital.objects.filter().exists(): # 병원 정보가 존재하면
-                max_id = Hospital.objects.all().aggregate(max_id=models.Max("id"))['max_id']
-                while True:
-                    pk = random.randint(1, max_id)
-                    hospital = Hospital.objects.filter(pk=pk).first()
-                    if hospital:
-                        data = HospitalSerializer(hospital).data
-                        return Response({"hospital": data}, status=status.HTTP_200_OK)
+            hos = Hospital.objects.exclude(hos_name="ChatGPT") # chatgpt 제외
+            if hos: # 병원 정보가 존재하면
+                idx = random.randint(0, len(hos) - 1)
+                data = HospitalSerializer(hos[idx]).data
+                return Response({"hospital": data}, status=status.HTTP_200_OK)
             else:
                 return JsonResponse({"message": "등록된 병원 정보 0개 입니다."}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:

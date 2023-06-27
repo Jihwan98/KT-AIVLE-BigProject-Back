@@ -14,7 +14,7 @@ class PictureSerializer(ModelSerializer):
     class Meta:
         model = Picture
         fields = ['id', 'userid', 'photo', 'created_at', 'model_result', 'model_conf', 'pet_id', 'gpt_explain'] 
-        read_only_fields = ['id', 'userid', 'created_at', 'model_result', 'model_conf', 'gpt_explain'] 
+        read_only_fields = ['id', 'userid', 'created_at', 'model_result', 'model_conf'] 
     
     
     def create(self, validated_data):

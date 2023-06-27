@@ -11,7 +11,8 @@ from .serializers import *
 from .ai_inference import class_model_inference
 from .gpt_disease import chatGPT
 from rest_framework.generics import get_object_or_404
-# from rest_framework.generics import ListAPIView
+from rest_framework.filters import SearchFilter
+
 # Create your views here.
 
 # posts/api/Picture     
@@ -64,6 +65,11 @@ class QuestionViewSet(ModelViewSet):
     serializer_class = QuestionSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     pagination_class = QuestionPagination
+    
+    # 검색 기능
+    # posts/api/question/?search={검색어}
+    filter_backends = [SearchFilter] # SearchFilter 기반으로 검색
+    search_fields = ('title', 'contents', ) # 어떤 컬럼을 기반으로 검색할 건지 튜플 형식으로 작성
 
     def create(self, request):
         # 등록하려는 picture 가 user의 picture인지 확인

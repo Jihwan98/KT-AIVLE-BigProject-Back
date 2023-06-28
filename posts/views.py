@@ -33,7 +33,6 @@ class PictureViewSet(ModelViewSet):
             serializer.is_valid(raise_exception=True)
 
             photo_io = serializer.validated_data['photo'].file
-            # serializer.validated_data['model_result'] = ai_model_inference(photo_io)
             disease, conf = class_model_inference(photo_io)
             serializer.validated_data['model_result'] = disease
             serializer.validated_data['model_conf'] = conf

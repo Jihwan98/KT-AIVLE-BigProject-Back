@@ -41,11 +41,14 @@ class DeleteAccount(APIView):
 class EmailCheckAPIView(APIView):
     permission_classes = (AllowAny,)
     def post(self, request):
-        email = request.data.get('email')
-        if User.objects.filter(email=email).exists(): # 이미 DB에 해당 email이 존재
-            return JsonResponse({"success": False, "message" : "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
-        else: # 생성가능
-            return JsonResponse({"success": True, "message" : "Available emails"}, status=status.HTTP_200_OK)
+        try:
+            email = request.data.get('email')
+            if User.objects.filter(email=email).exists(): # 이미 DB에 해당 email이 존재
+                return JsonResponse({"success": False, "message" : "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
+            else: # 생성가능
+                return JsonResponse({"success": True, "message" : "Available emails"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(f"error : {e}", status=status.HTTP_400_BAD_REQUEST)
 
 # accounts/api/hospital/
 class HospitalViewSet(ModelViewSet):
@@ -61,16 +64,16 @@ class HospitalViewSet(ModelViewSet):
 class HospitalAdAPIView(APIView):
     permission_classes = (AllowAny,)
     def get(self, request, *args, **kwargs):
-        if Hospital.objects.filter().exists(): # 병원 정보가 존재하면
-            max_id = Hospital.objects.all().aggregate(max_id=models.Max("id"))['max_id']
-            while True:
-                pk = random.randint(1, max_id)
-                hospital = Hospital.objects.filter(pk=pk).first()
-                if hospital:
-                    data = HospitalSerializer(hospital).data
-                    return Response({"hospital": data}, status=status.HTTP_200_OK)
-        else:
-            return JsonResponse({"message": "등록된 병원 정보 0개 입니다."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            hos = Hospital.objects.exclude(hos_name="ChatGPT") # chatgpt 제외
+            if hos: # 병원 정보가 존재하면
+                idx = random.randint(0, len(hos) - 1)
+                data = HospitalSerializer(hos[idx]).data
+                return Response({"hospital": data}, status=status.HTTP_200_OK)
+            else:
+                return JsonResponse({"message": "등록된 병원 정보 0개 입니다."}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response(f"error : {e}", status=status.HTTP_400_BAD_REQUEST)
 
 # accounts/api/pet/
 class PetViewSet(ModelViewSet):

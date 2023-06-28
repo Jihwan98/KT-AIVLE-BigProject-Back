@@ -6,5 +6,6 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         data = form.cleaned_data
         user.first_name = data.get('first_name')
         user.is_vet = data.get("is_vet")
+        user.profile_img = data.get("profile_img")
         user.save()
         return user

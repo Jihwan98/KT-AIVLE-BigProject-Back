@@ -15,7 +15,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     # 추가 설정 필드: is_vet
     first_name = serializers.CharField(required=True)
     is_vet = serializers.BooleanField(default=False)
-    profile_img = serializers.ImageField(default=False)
+    profile_img = serializers.ImageField(required=False)
     def get_cleaned_data(self):
         data = super().get_cleaned_data() # username, password, email 이 디폴트
         data['first_name'] = self.validated_data.get('first_name', '')
@@ -52,9 +52,7 @@ class PetSerializer(serializers.ModelSerializer):
         return pet
     
 class CustomUserDetailsSerializer(UserDetailsSerializer):
-    
     avatar = serializers.SerializerMethodField()
-    # profile_img  = serializers.SerializerMethodField()
 
     class Meta:
         model = User

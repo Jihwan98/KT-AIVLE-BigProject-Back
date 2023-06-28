@@ -144,32 +144,6 @@ class QuestionList(generics.ListCreateAPIView):
         queryset = self.queryset
         queryset = queryset.filter(userid=self.request.user)
         return queryset
-    
-# class QuestionSearchViewset(ModelViewSet):
-#     queryset = Question.objects.all()
-#     serializer_class = QuestionSerializer
-#     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
-
-#     def get_queryset(self):
-#         queryset = super().get_queryset()
-#         keyword = self.request.query_params.get('keyword', None)
-#         if keyword=='title':
-#             queryset = queryset.filter(title__icontains=keyword)
-#         elif keyword == 'contents':
-#             queryset = queryset.filter(content__icontains=keyword)
-#         return queryset
-    
-#     def create(self, request):
-#         # 등록하려는 picture 가 user의 picture인지 확인
-#         pictureid = request.data.get('pictureid')
-#         if request.user != Picture.objects.filter(id=pictureid).first().userid:
-#             return Response({"message": "해당 유저에 등록되지 않은 사진입니다."}, status=status.HTTP_400_BAD_REQUEST)
-        
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         self.perform_create(serializer)
-#         headers = self.get_success_headers(serializer.data)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 # /posts/question/<int:question:id>/answer : Question 별 Answer 조회 및 생성
 # /posts/question/<int:question:id>/answer/<int:id> : Answer 수정 및 삭제
@@ -188,4 +162,4 @@ class AnswerViewSet(ModelViewSet):
         serializer.save(userid=self.request.user, questionid=question)
         return super().perform_create(serializer)
     
-    
+

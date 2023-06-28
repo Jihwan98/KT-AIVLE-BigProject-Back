@@ -2,9 +2,6 @@ from django.urls import path, include
 from .views import *
 from dj_rest_auth.views import PasswordResetView, PasswordResetConfirmView
 from rest_framework.routers import DefaultRouter
-from accounts.views import (
-    NaverLoginAPIView, NaverCallbackAPIView, NaverToDjangoLoginView
-    )
 from django.views.generic import TemplateView
 from django_pydenticon.views import image as pydenticon_image
 
@@ -26,21 +23,6 @@ urlpatterns = [
     # hospital, pet
     path('api/', include(router.urls)),
     path('api/hospital-ad/', HospitalAdAPIView.as_view()),
-
-    # Naver Login
-    # path('naver/login',NaverLoginAPIView.as_view()),
-    # path('naver/callback', NaverCallbackAPIView.as_view()),
-    # path('naver/login/success', NaverToDjangoLoginView.as_view()),
-    
-    # Kakao Login
-    # path('kakao/login', KakaoLoginAPIView.as_view()),
-    # path('kakao/callback/', KakaoCallbackAPIView.as_view()),
-    # path('kakao/login/success', KakaoToDjangoLoginView.as_view()),
-    
-    # Google Login
-    # path('google/login', GoogleLoginAPIView.as_view()),
-    # path('google/callback', GoogleCallbackAPIView.as_view()),
-    # path('google/login/success', GoogleToDjangoLoginView.as_view()),
 
     # pydenticon
     path('identicon/image/<path:data>/', pydenticon_image, name='pydenticon_image'),]

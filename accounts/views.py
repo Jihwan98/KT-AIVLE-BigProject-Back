@@ -4,27 +4,13 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .serializers import *
 from django.conf import settings
-from django.shortcuts import redirect
-import requests
-from .models import User
-from allauth.socialaccount.providers.naver import views as naver_views
-from allauth.socialaccount.providers.kakao import views as kakao_views
-from allauth.socialaccount.providers.google import views as google_views
-from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from dj_rest_auth.registration.views import SocialLoginView
-from dj_rest_auth.views import UserDetailsView
 from django.http import JsonResponse
-from json import JSONDecodeError
 from rest_framework.viewsets import ModelViewSet
 from .models import *
-from .serializers import HospitalSerializer, PetSerializer
-from django.core import serializers
-from rest_framework import viewsets
-from allauth.socialaccount.models import SocialAccount
-from rest_framework.generics import RetrieveUpdateAPIView
 from .permissions import *
 import random
-
+from django.db.models import Count
+import numpy as np
 
 main_domain = settings.MAIN_DOMAIN
 
@@ -62,12 +48,18 @@ class HospitalViewSet(ModelViewSet):
 
 # accounts/api/hospital-ad/
 class HospitalAdAPIView(APIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (AllowAny,)      
     def get(self, request, *args, **kwargs):
         try:
-            hos = Hospital.objects.exclude(hos_name="ChatGPT") # chatgpt 제외
+            # chatgpt 제외, 답변 0개 제외, 답변 개수 세기
+            # hos = Hospital.objects.exclude(hos_name="ChatGPT").filter(user_id__answer__isnull=False).annotate(answer_count=Count('user_id__answer'))
+            # chatgpt 제외, 답변 개수 세기
+            hos = Hospital.objects.exclude(hos_name="ChatGPT").annotate(answer_count=Count('user_id__answer')) 
             if hos: # 병원 정보가 존재하면
-                idx = random.randint(0, len(hos) - 1)
+                # ans_count = np.array(list(map(lambda x: x['answer_count'], hos.values('answer_count'))))
+                ans_count = np.array(list(map(lambda x: x['answer_count'] + 1, hos.values('answer_count')))) # 기본 1개를 줘서 광고에 노출 될 수 있도록
+                ans_prob = ans_count / sum(ans_count) # 답변 개수에 따른 확률
+                idx = np.random.choice(len(hos), p=ans_prob) # 답변 개수에 따른 광고 빈도 
                 data = HospitalSerializer(hos[idx]).data
                 return Response({"hospital": data}, status=status.HTTP_200_OK)
             else:

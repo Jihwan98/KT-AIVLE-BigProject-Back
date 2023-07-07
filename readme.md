@@ -22,12 +22,12 @@ ec2에서 python venv를 사용할 것으로 venv로 가상환경을 세팅
 8. `settings_params.py` 각자 환경에 맞게 세팅하고 `manage.py` 와 같은 위치에 두기
 9. `$ python manage.py migrate` : models.py 를 db 에 반영
 
-### 🌱 AWS EC2 가상환경 세팅 (테스트용 SQLite)
+### 🌱 AWS EC2 가상환경 세팅
 - python version : `Python 3.8.10`
 1. `sudo apt install python3.8-venv` : venv 사용을 위해 다운
 2. `python3 -m venv .venv` : 가상환경 생성
 3. `source .venv/bin/activate` : 가상환경 활성화
 4. `pip install --upgrade pip` : pip upgrade
-5. `pip install -r requirements.txt` : mysqlclient 제외하고
+5. `pip install -r requirements.txt`
 6. `settings.py` 에서 `ALLOWED_HOST = ["*"]`
 7. `nohup sudo /home/ubuntu/deploy/.venv/bin/python manage.py runserver 0:80&` : 백그라운드에서 서버 실행

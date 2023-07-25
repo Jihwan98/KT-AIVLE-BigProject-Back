@@ -268,7 +268,7 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-AWS = False
+AWS = True
 if AWS:
     # AWS
     AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID # .csv 파일에 있는 내용을 입력 Access key ID
